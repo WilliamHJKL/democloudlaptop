@@ -2,7 +2,10 @@
   virt_net: command=define name="{{ internal_network_name }}" xml='{{ lookup("template", "../templates/example.demo.xml.j2") }}'
 
 - name: DEPLOY KVM NETWORK | Starting internal network
-  virt_net: command=create name="{{ internal_network_name }}"
+  virt_net:
+    name="{{ internal_network_name }}"
+    state=active
+    autostart=yes
 
 - name: DEPLOY KVM NETWORK |
   virt_net: command=list_nets

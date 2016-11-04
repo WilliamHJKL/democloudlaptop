@@ -11,7 +11,5 @@ libvirt_packages:
 libvirt_ports:
     - 16509
     - 16514
-internal_network_name:
-    - exampletest
-external_network_name:
-    - external
+internal_network_name: myexampletest
+external_network_name: external
