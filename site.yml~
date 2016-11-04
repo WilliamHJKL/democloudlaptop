@@ -1,7 +1,0 @@
----
-hosts: kvmhosts
-roles:
-  - deploy-kvm
-  - deploy-kvm-network
-
-
