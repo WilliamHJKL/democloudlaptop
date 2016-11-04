@@ -1,0 +1,14 @@
+- name: DEPLOY KVM NETWORKS
+  hosts: serverkvm
+  vars:
+    internal_network_name:
+      - exampletest
+    external_network_name:
+      - external
+
+  tasks :
+    - name: DEPLOY KVM NETWORK | Creating internal network "{{ internal_network_name }}"
+      virt_net: command=define name={{ internal_network_name }} xml='../templates/example.demo.xml.j2'
+
+    - name: DEPLOY KVM NETWORK | Creating external network "{{ external_network_name }}"
+      virt_net: command=list_nets

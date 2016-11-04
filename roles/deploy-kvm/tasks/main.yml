@@ -1,0 +1,21 @@
+---
+  - name: DEPLOY KVM | Installing packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - "{{ libvirt_packages }}"
+
+  - name: DEPLOY KVM | Open port
+    become: yes
+    firewalld: "port={{ item }}/tcp state=enabled zone=public permanent=yes immediate=true"
+    with_items:
+      - "{{ libvirt_ports}}"
+
+  - name: DEPLOY KVM | Labeling SELinux port for libvirt
+    seport: "ports={{ item }} proto=tcp setype=virt_port_t state=present"
+    with_items:
+      - "{{ libvirt_ports}}"
+
+  - name: DEPLOY KVM | Enabling and starting libvirtd service
+    become: yes
+    service: name=libvirtd state=started enabled=yes
+

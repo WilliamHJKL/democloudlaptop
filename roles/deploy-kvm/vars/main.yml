@@ -1,0 +1,16 @@
+---
+# vars file for deploy-kvm
+libvirt_packages:
+  - libvirt-daemon-kvm
+libvirt_daemon_config_file: /etc/sysconfig/libvirtd
+libvirt_config_file: /etc/libvirt/libvirtd.conf
+libvirt_qemu_config_file: /etc/libvirt/qemu.conf
+libvirt_daemon_config:
+  - { option: 'LIBVIRTD_ARGS', value: 'LIBVIRTD_ARGS="--listen"' }
+
+libvirt_firewalld: true
+libvirt_selinux: true
+libvirt_port: 16509
+libvirt_bind_address: 0.0.0.0
+libvirt_config: []
+libvirt_qemu_config: []

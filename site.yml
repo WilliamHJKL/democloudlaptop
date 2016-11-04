@@ -1,0 +1,7 @@
+---
+- name: Deploy a demo infrastructure
+  hosts: kvmhosts
+
+  roles:
+    - deploy-kvm
+    - deploy-kvm-network
