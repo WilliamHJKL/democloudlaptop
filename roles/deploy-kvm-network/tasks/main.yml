@@ -1,4 +1,4 @@
-- name: DEPLOY KVM NETWORK | Creating internal network "{{ internal_network_name }}"
+- name: DEPLOY KVM NETWORK | Creating internal network
   virt_net: command=define name="{{ internal_network_name }}" xml='{{ lookup("template", templates/example.demo.xml.j2) }}'
 
 - name: DEPLOY KVM NETWORK | Creating external network "{{ external_network_name }}"
