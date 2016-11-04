@@ -1,0 +1,13 @@
+<network>
+  <name>{{ external_network_name }}</name>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='brexternal' stp='on' delay='0'/>
+  <domain name='external'/>
+  <ip address='192.168.200.1' netmask='255.255.255.0'>
+  </ip>
+</network>
+

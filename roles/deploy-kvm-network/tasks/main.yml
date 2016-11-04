@@ -1,11 +1,23 @@
 - name: DEPLOY KVM NETWORK | Creating internal network
-  virt_net: command=define name="{{ internal_network_name }}" xml='{{ lookup("template", "../templates/example.demo.xml.j2") }}'
+  virt_net:
+    command=define
+    name="{{ internal_network_name }}"
+    xml='{{ lookup("template", "../templates/example.demo.xml.j2") }}'
+    autostart=yes
 
 - name: DEPLOY KVM NETWORK | Starting internal network
   virt_net:
     name="{{ internal_network_name }}"
     state=active
+
+- name: DEPLOY KVM NETWORK | Creating external network
+  virt_net:
+    command=define
+    name="{{ external_network_name }}"
+    xml='{{ lookup("template", "../templates/external.demo.xml.j2") }}'
     autostart=yes
 
-- name: DEPLOY KVM NETWORK |
-  virt_net: command=list_nets
+- name: DEPLOY KVM NETWORK | Starting external network
+  virt_net:
+    name="{{ external_network_name }}"
+    state=active
