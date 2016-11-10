@@ -1,0 +1,11 @@
+- name: DEPLOY KVM STORAGE | Creating internal network
+  virt_net:
+    command=define
+    name="{{ storage_name }}"
+    xml='{{ lookup("template", "../templates/storage.example.demo.xml.j2") }}'
+    autostart=yes
+
+- name: DEPLOY KVM STORAGE | Starting internal network
+  virt_net:
+    name="{{ storage_name }}"
+    state=active

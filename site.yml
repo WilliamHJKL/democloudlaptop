@@ -3,5 +3,7 @@
   hosts: kvmhosts
 
   roles:
+    - deploy-pre
     - deploy-kvm
     - deploy-kvm-network
+    - deploy-kvm-storage
