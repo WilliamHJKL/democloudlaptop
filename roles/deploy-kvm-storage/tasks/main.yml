@@ -1,11 +1,15 @@
-- name: DEPLOY KVM STORAGE | Creating internal network
-  virt_net:
+- name: DEPLOY KVM STORAGE | Creating Vm directory
+  file:
+    path='{{ storage_pool_location }}'
+    state=directory mode=0755
+
+- name: DEPLOY KVM STORAGE | Creating VM spool
+  virt_pool:
     command=define
     name="{{ storage_name }}"
     xml='{{ lookup("template", "../templates/storage.example.demo.xml.j2") }}'
-    autostart=yes
 
-- name: DEPLOY KVM STORAGE | Starting internal network
-  virt_net:
+- name: DEPLOY KVM STORAGE | Starting VM spool
+  virt_pool:
     name="{{ storage_name }}"
     state=active
