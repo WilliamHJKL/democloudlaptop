@@ -11,7 +11,12 @@ libvirt_packages:
 libvirt_ports:
     - 16509
     - 16514
+
 internal_network_name: testexamplenet
 external_network_name: testexternalnet
+
 storage_name: testexamplestorage
 storage_pool_location: /var/lib/libvirt/images/vms
+
+libvirt_image_url:
+image_name:

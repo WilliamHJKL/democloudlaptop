@@ -1,0 +1,16 @@
+---
+- name: DEPLOY KVM | Get template
+  get_url:
+    url: "{{ libvirt_image_url }}"
+    sha256sum: "{{ libvirt_image_sha256 }}"
+    dest: "{{ storage_pool_location }}/{{ image_name }}"
+
+- name: DEPLOY KVM | Define VM
+  virt:
+    name=foo
+    command=define
+    xml='{{ lookup("template", "../templates/template-vm.xml.j2") }}'
+         uri=lxc:///
+- name: start vm
+    virt: name=foo state=running uri=lxc:///
+
