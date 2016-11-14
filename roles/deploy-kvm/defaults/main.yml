@@ -1,2 +1,11 @@
 ---
-# defaults file for deploy-kvm
+libvirt_packages:
+    - libvirt-daemon-kvm
+    - qemu-kvm
+    - qemu-kvm-common
+    - libvirt-daemon-driver-qemu
+    - libvirt-daemon-driver-interface
+    - libvirt-daemon-driver-storage
+    - virt-manager-common
+    - virt-manager
+    - virt-install
