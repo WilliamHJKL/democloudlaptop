@@ -1,7 +1,7 @@
 ---
 - name: Deploy a demo infrastructure
   hosts: kvmhosts
-
+  remote_user: root
   roles:
     - deploy-pre
     - deploy-kvm
