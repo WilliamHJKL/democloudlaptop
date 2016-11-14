@@ -1,6 +1,5 @@
 <network>
   <name>{{ internal_network_name }}</name>
-  <uuid>{{ internal_network_name | to_uuid }}</uuid>
   <bridge name='brdemo' stp='on' delay='0'/>
   <domain name='example.demo'/>
   <ip address='172.32.0.1' netmask='255.255.255.0'>

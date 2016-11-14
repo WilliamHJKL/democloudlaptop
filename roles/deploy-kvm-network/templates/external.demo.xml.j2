@@ -1,7 +1,5 @@
 <network>
   <name>{{ external_network_name }}</name>
-  <uuid>{{ external_network_name | to_uuid }}</uuid>
-
   <forward mode='nat'>
     <nat>
       <port start='1024' end='65535'/>
