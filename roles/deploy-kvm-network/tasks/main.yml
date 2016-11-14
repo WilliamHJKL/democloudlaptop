@@ -1,23 +1,29 @@
-- name: DEPLOY KVM NETWORK | Creating internal network
-  virt_net:
-    command=define
-    name="{{ internal_network_name }}"
-    xml='{{ lookup("template", "../templates/example.demo.xml.j2") }}'
-    autostart=yes
+--- 
+- name: gather facts
+  virt_net: command=facts
+  register: ansible_libvirt_networks
 
-- name: DEPLOY KVM NETWORK | Starting internal network
-  virt_net:
-    name="{{ internal_network_name }}"
-    state=active
+- name: deploy-kvm-network|Define internal network
+  virt_net: command=define name="{{ internal_network_name }}" xml="{{ lookup('template', '../templates/internal.xml.j2') }}" state=present
 
-- name: DEPLOY KVM NETWORK | Creating external network
-  virt_net:
-    command=define
-    name="{{ external_network_name }}"
-    xml='{{ lookup("template", "../templates/external.demo.xml.j2") }}'
-    autostart=yes
+- name: deploy-kvm-network|Create internal network
+  virt_net: command=create name="{{ internal_network_name }}" state=present
 
-- name: DEPLOY KVM NETWORK | Starting external network
-  virt_net:
-    name="{{ external_network_name }}"
-    state=active
+- name: deploy-kvm-network|Autostart internal network
+  virt_net: name="{{ internal_network_name }}" autostart=yes
+
+- name: deploy-kvm-network|Starting internal network
+  virt_net: name="{{ internal_network_name }}" state=active
+
+- name: deploy-kvm-network|Define external network
+  virt_net: command=define name="{{ external_network_name }}" xml="{{ lookup('template', '../templates/external.xml.j2') }}" state=present
+
+- name: deploy-kvm-network|Create external network
+  virt_net: command=create name="{{ external_network_name }}" state=present
+
+- name: deploy-kvm-network|Autostart external network
+  virt_net: name="{{ external_network_name }}" autostart=yes
+
+- name: deploy-kvm-network|Starting external network
+  virt_net: name="{{ external_network_name }}" state=active
+
