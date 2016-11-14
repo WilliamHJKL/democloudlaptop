@@ -1,21 +1,31 @@
 ---
-  - name: DEPLOY KVM | Installing packages
-    yum: name={{ item }} state=latest
+  - name: deploy-kvm - Install KVM packages
+    become: yes
+    package: name={{ item }} state=installed
     with_items:
-      - "{{ libvirt_packages }}"
+    - python-firewall
+    - qemu-kvm
+    - libvirt-daemon-driver-qemu
+    - libvirt-daemon-driver-interface
+    - libvirt-daemon-driver-storage
+    - virt-manager
+    - virt-install
+    - libvirt-daemon-kvm
+    - policycoreutils-python
+    - python2-lxml
 
-  - name: DEPLOY KVM | Open port
+  - name: deploy-kvm - Open ports
     become: yes
     firewalld: "port={{ item }}/tcp state=enabled zone=public permanent=yes immediate=true"
     with_items:
       - "{{ libvirt_ports}}"
 
-  - name: DEPLOY KVM | Labeling SELinux port for libvirt
+  - name: deploy-kvm - Labeling SELinux port for libvirt
     seport: "ports={{ item }} proto=tcp setype=virt_port_t state=present"
     with_items:
       - "{{ libvirt_ports}}"
 
-  - name: DEPLOY KVM | Enabling and starting libvirtd service
+  - name: deploy-kvm - Enabling and starting libvirtd service
     become: yes
     service: name=libvirtd state=started enabled=yes
 
