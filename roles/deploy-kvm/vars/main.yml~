@@ -1,9 +1,0 @@
----
-# vars file for deploy-kvm
-libvirt_packages:
-  - libvirt-daemon-kvm
-libvirt_daemon_config_file: /etc/sysconfig/libvirtd
-libvirt_config_file: /etc/libvirt/libvirtd.conf
-libvirt_qemu_config_file: /etc/libvirt/qemu.conf
-libvirt_daemon_config:
-  - { option: 'LIBVIRTD_ARGS', value: 'LIBVIRTD_ARGS="--listen"' }
