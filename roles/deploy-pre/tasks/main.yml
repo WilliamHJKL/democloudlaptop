@@ -9,4 +9,3 @@
 
   - name: enable sysrq
     sysctl: name=kernel.sysrq value=1 state=present
-
