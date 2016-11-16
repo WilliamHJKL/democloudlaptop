@@ -1,5 +1,5 @@
 # democloudlaptop :
-- Adjust variables in roles/$rolename/defaults/var.yml if needed.
+- Adjust variables in roles/$rolename/defaults/var.yml if needed. Hint : grep CHANGEME
 - Run ansible-playbook -v --ask-become-pass -i hosts site.yml as a simple user. The user need to have correct authorization in sudo.
 
 # TODO :

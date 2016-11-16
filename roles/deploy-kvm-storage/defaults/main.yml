@@ -1,3 +1,3 @@
 ---
-storage_name: testexamplestorage
-storage_pool_location: /var/lib/libvirt/images/vms
+storage_name: storageCHANGEME
+storage_pool_location: /var/lib/libvirt/images/vmsCHANGEME

@@ -1,4 +1,4 @@
 ---
-internal_network_name: testexamplenet
-external_network_name: testexternalnet
-dns_name: acme.org
+internal_network_name: internalCHANGEME
+external_network_name: externalCHANGEME
+dns_name: CHANGEME.org
