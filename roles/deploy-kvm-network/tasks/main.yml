@@ -2,7 +2,7 @@
   virt_net:
     command=define
     name="{{ internal_network_name }}"
-    xml='{{ lookup("template", "../templates/example.demo.xml.j2") }}'
+    xml='{{ lookup("template", "../templates/internal.xml.j2") }}'
     autostart=yes
 
 - name: DEPLOY KVM NETWORK | Starting internal network
@@ -14,7 +14,7 @@
   virt_net:
     command=define
     name="{{ external_network_name }}"
-    xml='{{ lookup("template", "../templates/external.demo.xml.j2") }}'
+    xml='{{ lookup("template", "../templates/external.xml.j2") }}'
     autostart=yes
 
 - name: DEPLOY KVM NETWORK | Starting external network
