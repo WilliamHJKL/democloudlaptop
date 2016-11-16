@@ -13,4 +13,3 @@ libvirt_packages:
 libvirt_ports:
     - 16509
     - 16514
-

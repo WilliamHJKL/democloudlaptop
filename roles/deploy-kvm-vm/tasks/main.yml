@@ -1,15 +1,10 @@
 ---
-- debug: msg="libvirt_image_url "{{ libvirt_image_url }}""
-
-- debug: msg="libvirt_image_sha256 "{{ libvirt_image_sha256 }}""
-
-- debug: msg="storage_pool_location "{{ storage_pool_location }}""
 
 - debug: msg="vm_name "{{ vm_name }}""
 
 - name: DEPLOY KVM VM | Get template
   get_url:
-    url: "{{ libvirt_image_url }}/{{ image_name }}"
+    url: ftp://localhost/pub/template.qcow2
     checksum: "{{ libvirt_image_sha256 }}"
     dest: "{{ storage_pool_location }}/{{ vm_name }}.qcow2"
 
@@ -19,11 +14,11 @@
     name="{{ vm_name }}"
     command=define
     xml='{{ lookup("template", "../templates/template-vm.xml.j2") }}'
-    uri=qemu:///
+    uri=qemu:///system
 
 - name: DEPLOY KVM VM | Start vm
   virt:
     name="{{ vm_name }}"
     state=running
-    uri=qemu:///
+    uri=qemu:///system
 
