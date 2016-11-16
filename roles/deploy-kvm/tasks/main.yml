@@ -3,6 +3,10 @@
   yum: name="{{ item }}" state=latest
   with_items: "{{ libvirt_packages }}"
 
+- debug: msg="{{ libvirt_packages }}"
+
+- debug: msg="{{ libvirt_ports }}"
+
 - name: DEPLOY KVM | Open port
   firewalld:
     port="{{ item }}"/tcp
@@ -11,7 +15,7 @@
     permanent=yes
     immediate=true
   with_items:
-    - "{{ libvirt_ports}}"
+    - "{{ libvirt_ports }}"
 
 - name: DEPLOY KVM | Labeling SELinux port for libvirt
   seport:

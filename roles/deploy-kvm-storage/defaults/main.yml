@@ -1,2 +1,3 @@
 ---
-# defaults file for deploy-kvm-storage
+storage_name: testexamplestorage
+storage_pool_location: /var/lib/libvirt/images/vms

@@ -1,2 +1,3 @@
 ---
-# defaults file for deploy-kvm-network
+internal_network_name: testexamplenet
+external_network_name: testexternalnet

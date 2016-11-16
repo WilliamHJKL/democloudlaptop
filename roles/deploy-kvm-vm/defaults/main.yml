@@ -1,2 +1,5 @@
 ---
-# defaults file for deploy-kvm-vm
+libvirt_image_url: localhost
+libvirt_image_sha256: sha256:301bbaff09c2602f12bfd6933bb2267fce223f00431677ba8d4cfc0763760ddd
+image_name: template.example.demo-disk1
+vm_name: testvm

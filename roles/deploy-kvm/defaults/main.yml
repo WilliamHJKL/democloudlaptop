@@ -9,3 +9,8 @@ libvirt_packages:
   - virt-manager-common
   - virt-manager
   - virt-install
+
+libvirt_ports:
+    - 16509
+    - 16514
+
