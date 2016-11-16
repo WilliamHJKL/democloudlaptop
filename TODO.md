@@ -15,6 +15,10 @@ envoyées sur git, ou utiliser le seul ansible-vault
 
 Installation Satellite
 ======================
+* Quel rôle & kickstart pour l'installation ?
+>  https://github.com/toshywoshy/ansible-role-vminstaller/ ?
+
 * Existence d'un module Ansible pour Hammer/Sat 6 ou que des commandes ?
+
 
 
