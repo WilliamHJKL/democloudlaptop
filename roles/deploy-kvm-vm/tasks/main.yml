@@ -1,24 +1,20 @@
 ---
-
-- debug: msg="vm_name "{{ vm_name }}""
-
 - name: DEPLOY KVM VM | Get template
   get_url:
     url: ftp://localhost/pub/template.qcow2
     checksum: "{{ libvirt_image_sha256 }}"
-    dest: "{{ storage_pool_location }}/{{ vm_name }}.qcow2"
+    dest: "{{ storage_pool_location }}/srv.{{ dns_name }}.qcow2"
 
-
-- name: DEPLOY KVM VM | Define VM
+- name: DEPLOY KVM VM | Define ipa VM
   virt:
-    name="{{ vm_name }}"
+    name=srv.{{ dns_name }}
     command=define
-    xml='{{ lookup("template", "../templates/template-vm.xml.j2") }}'
+    xml='{{ lookup("template", "../templates/template-ipa.xml.j2") }}'
     uri=qemu:///system
 
-- name: DEPLOY KVM VM | Start vm
+- name: DEPLOY KVM VM | Start ipa vm
   virt:
-    name="{{ vm_name }}"
+    name=srv.{{ dns_name }}
     state=running
     uri=qemu:///system
 
