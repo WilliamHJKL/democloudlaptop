@@ -1,7 +1,12 @@
 <network>
   <name>{{ internal_network_name }}</name>
-  <bridge name='brdemo' stp='on' delay='0'/>
+  <bridge name='brinternal' stp='on' delay='0'/>
   <domain name='{{ dns_name }}'/>
   <ip address='172.32.0.1' netmask='255.255.255.0'>
   </ip>
+  <dhcp>
+  <range start='172.32.0.254' end='172.32.0.254'/>
+    <host mac='00:16:3e:0f:ef:8a' name='vm1' ip='172.32.0.254'/>
+  </dhcp>
+
 </network>
