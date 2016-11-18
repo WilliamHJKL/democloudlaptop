@@ -29,16 +29,20 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
     </controller>
     <controller type='pci' index='0' model='pci-root'/>
+
     <interface type='network'>
       <model type='virtio'/>
-      <mac address='00:16:3e:0f:ef:8a'/>
-      <source network='{{ internal_network_name }}'/>
+      <source network='{{ internal_network_name }}' bridge='brinternal'/>
+      <target dev='vnetint'/>
     </interface>
-    <interface type='network'>
-      <source network='{{ external_network_name }}'/>
+    
+	<interface type='network'>
+      <source network='{{ external_network_name }}' bridge='brexternal'/>
+      <target dev='vnetext'/>
       <model type='virtio'/>
     </interface>
-    <serial type='pty'>
+    
+	<serial type='pty'>
       <target port='0'/>
     </serial>
     <console type='pty'>

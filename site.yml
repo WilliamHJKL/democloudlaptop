@@ -5,6 +5,7 @@
 
   roles:
     - deploy-pre
+    - deploy-kvm
     - deploy-kvm-network
     - deploy-kvm-storage
     - deploy-kvm-vm
