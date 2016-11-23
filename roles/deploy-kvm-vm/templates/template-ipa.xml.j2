@@ -32,16 +32,15 @@
 
     <interface type='network'>
       <model type='virtio'/>
-      <source network='{{ internal_network_name }}' bridge='brinternal'/>
-      <target dev='vnetint'/>
-    </interface>
-    
-	<interface type='network'>
       <source network='{{ external_network_name }}' bridge='brexternal'/>
       <target dev='vnetext'/>
-      <model type='virtio'/>
     </interface>
-    
+	<interface type='network'>
+      <model type='virtio'/>
+      <source network='{{ internal_network_name }}' bridge='brinternal'/>
+      <mac address='00:16:3e:0f:ef:8a'/>
+      <target dev='vnetint'/>
+    </interface>
 	<serial type='pty'>
       <target port='0'/>
     </serial>

@@ -5,8 +5,9 @@
   <ip address='172.32.0.1' netmask='255.255.255.0'>
   </ip>
   <dhcp>
-  <range start='172.32.0.254' end='172.32.0.254'/>
-    <host mac='00:16:3e:0f:ef:8a' name='vm1' ip='172.32.0.254'/>
+  <range start='172.32.0.250' end='172.32.0.254'/>
+    <host mac='00:16:3e:0f:ef:8a' name='srv.{{ dns_name }}' ip='172.32.0.254'/>
+    <host mac='00:16:3e:0f:ef:8b' name='sat.{{ dns_name }}' ip='172.32.0.253'/>
+    <host mac='00:16:3e:0f:ef:3e' name='tower.{{ dns_name }}' ip='172.32.0.252'/>
   </dhcp>
-
 </network>

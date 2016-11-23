@@ -10,7 +10,7 @@
 - name: DEPLOY KVM | Open port
   firewalld:
     port="{{ item }}"/tcp
-    state=enabled
+    state=disabled
     zone=public
     permanent=yes
     immediate=true

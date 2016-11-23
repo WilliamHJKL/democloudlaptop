@@ -9,5 +9,10 @@
   <domain name='external'/>
   <ip address='192.168.200.1' netmask='255.255.255.0'>
   </ip>
+  <dhcp>
+  <range start='192.168.200.250' end='192.168.200.254'/>
+    <host mac='00:16:3e:ef:0f:8a' name='srv.{{ dns_name }}' ip='192.168.200.254'/>
+    <host mac='00:16:3e:ef:0f:8b' name='sat.{{ dns_name }}' ip='192.168.200.253'/>
+    <host mac='00:16:3e:ef:0f:3e' name='tower.{{ dns_name }}' ip='192.168.200.252'/>
+  </dhcp>
 </network>
-
