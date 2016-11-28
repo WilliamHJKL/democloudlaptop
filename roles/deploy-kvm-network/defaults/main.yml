@@ -1,4 +1,4 @@
 ---
-internal_network_name: internaltest
-external_network_name: externaltest
-dns_name: test.org
+internal_network_name: rzointern
+external_network_name: rzoextern
+dns_name: dnsexample
