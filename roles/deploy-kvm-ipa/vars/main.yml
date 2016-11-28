@@ -1,0 +1,17 @@
+---
+vm_name: 'vm_example'
+vm_mem_size: '2048'
+vm_mem_size_max: '2048'
+vm_disk_size: '10'
+vm_num_cpus: '2'
+vm_num_cpus_max: '4'
+
+vm_memory_options: "--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio"
+
+keyboard: 'us'
+lang: 'en_US'
+timezone: 'Europe/Paris'
+
+ks_repo:
+  EL:
+    7: ftp://localhost/pub/EL7

@@ -1,0 +1,40 @@
+---
+- name: Ensure the storage for {{ vm_name }} is made
+
+- name: Check that the VM is not running yet
+  virt:
+    command: list_vms
+    register: result
+
+- name: Create the configuration for storing kickstarts
+  file:
+    state: directory
+    name: /etc/libvirt/kickstarts/{{ item }}
+    with_items:
+      - /
+      - /{{ vm_name }}/
+
+- name: Install the kickstart for {{ vm_name }}
+  template:
+    src: kickstart/{{ vm_name }}-ks.cfg
+    dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
+
+- block:
+- name: Run the virt-install for {{ vm_name }}
+    shell: "{{ virt_install_command }}"
+
+- name: Wait for the install of {{ vm_name }} to finish
+  virt:
+    command: status
+    name: "{{ vm_name }}"
+  register: vmstatus
+  until: vmstatus.status == 'shutdown'
+  retries: 1500
+   delay: 10
+
+   - name: Start the VM for {{ vm_name }}
+ virt:
+    command: start
+     name: "{{ vm_name }}"
+
+   when: name not in result.list_vms

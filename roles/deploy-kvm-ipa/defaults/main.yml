@@ -1,0 +1,17 @@
+---
+keyboard: 'us'
+lang: 'en_US'
+timezone: 'Europe/Paris'
+
+ks_repo:
+  EL:
+    7: ftp://localhost/pub/EL7
+
+virt_install_command: virt-install -n {{ vm_name }}
+  {{ vm_memory_options }}
+  --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }}
+  --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
+  --autostart --noautoconsole --watchdog default
+  -l {{ ks_repo[distribution][version] }}
+  --network bridge={{ bridge }},model=virtio --graphics none
+  -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
