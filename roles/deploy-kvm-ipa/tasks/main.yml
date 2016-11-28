@@ -1,6 +1,4 @@
 ---
-- name: Ensure the storage for {{ vm_name }} is made
-
 - name: Check that the VM is not running yet
   virt:
     command: list_vms
@@ -9,32 +7,29 @@
 - name: Create the configuration for storing kickstarts
   file:
     state: directory
-    name: /etc/libvirt/kickstarts/{{ item }}
-    with_items:
-      - /
-      - /{{ vm_name }}/
+    name: /etc/libvirt/kickstarts/{{ vm_name }}
 
 - name: Install the kickstart for {{ vm_name }}
   template:
-    src: kickstart/{{ vm_name }}-ks.cfg
+    src: "{{ vm_name }}"
     dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
 
-- block:
-- name: Run the virt-install for {{ vm_name }}
-    shell: "{{ virt_install_command }}"
+- name: Run the virt-install
+  command: "/usr/bin/virt-install -n {{ vm_name }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
+  --autostart --noautoconsole --watchdog default -l {{ ks_repo[distribution][version] }} --network bridge={{ bridge }},model=virtio --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0"
+  when: name not in result.list_vms
 
-- name: Wait for the install of {{ vm_name }} to finish
+- name: Wait for the install to finish
   virt:
     command: status
     name: "{{ vm_name }}"
   register: vmstatus
   until: vmstatus.status == 'shutdown'
   retries: 1500
-   delay: 10
+  delay: 10
 
-   - name: Start the VM for {{ vm_name }}
- virt:
+- name: Start the VM for {{ vm_name }}
+  virt:
     command: start
-     name: "{{ vm_name }}"
-
-   when: name not in result.list_vms
+    name: "{{ vm_name }}"
+    when: name not in result.list_vms
