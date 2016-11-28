@@ -1,0 +1,34 @@
+#version=RHEL7
+auth --enableshadow --passalgo=sha512
+
+graphical
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=vda
+# Keyboard layouts
+keyboard --vckeymap=us-intl --xlayouts='us (intl)'
+# System language
+lang en_US.UTF-8
+
+# Network information
+network  --bootproto=static --device=eth0 --gateway=192.168.100.1 --ip=192.168.100.254 --nameserver=192.168.100.1 --netmask=255.255.255.0 --ipv6=auto --activate
+network  --bootproto=static --device=eth1 --ip=172.31.0.254 --netmask=255.255.255.0 --onboot=off --ipv6=auto --activate
+network  --hostname=srv.example.demo
+# Root password
+rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
+# System timezone
+timezone America/New_York --isUtc
+# System bootloader configuration
+bootloader --location=mbr --boot-drive=vda
+autopart --type=lvm
+# Partition clearing information
+clearpart --none --initlabel 
+
+%packages
+@core
+
+%end
+
+%addon com_redhat_kdump --disable --reserve-mb='auto'
+
+%end
