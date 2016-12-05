@@ -13,3 +13,11 @@ libvirt_packages:
 libvirt_ports:
     - 16509
     - 16514
+
+internal_network_name: rzointern
+external_network_name: rzoextern
+
+dns_name: dnsexample
+
+storage_name: vmsstorage
+storage_pool_location: /var/lib/libvirt/images/vms

@@ -15,7 +15,7 @@
     dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
 
 - name: Run the virt-install
-  command: /usr/bin/virt-install -n {{ vm_name }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network bridge=brexternal,model=virtio --network bridge=brinternal,model=virtio -l ftp://localhost/pub/EL/7/ -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  command: /usr/bin/virt-install -n {{ vm_name }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network bridge=brexternal,model=virtio --network bridge=brexternal,model=virtio,mac=00:16:3e:ef:0f:8a -l ftp://localhost/pub/EL/7/ -x 'net.ifnames=0 ksdevice=eth1 ks=file:/ks.cfg console=tty0 console=ttyS0'
 #  when: name not in result.list_vms
 
 - name: Wait for the install to finish

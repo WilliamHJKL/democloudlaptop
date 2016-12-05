@@ -1,4 +1,0 @@
----
-# handlers file for deploy-kvm
-- name: restart libvirtd
-  command: systemctl restart libvirtd

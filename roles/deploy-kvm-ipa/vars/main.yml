@@ -1,5 +1,5 @@
 ---
-vm_name: 'ipa'
+vm_name: 'srv'
 vm_mem_size: '2048'
 vm_mem_size_max: '2048'
 vm_disk_size: '10'

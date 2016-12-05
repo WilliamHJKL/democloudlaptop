@@ -1,0 +1,79 @@
+---
+ - name: DEPLOY KVM | PRE - checking if hardware virtualization is supported
+   command: egrep -c '(vmx|svm)' /proc/cpuinfo
+   register: hw_check
+
+ - name: DEPLOY KVM | PRE - fail if hardware virtualization not supported
+   fail: msg="Hardware Virtualization Not Supported on this platform!!!!"
+   when: hw_check.stdout == "0"
+
+ - name: DEPLOY KVM | PRE - enable sysrq
+   sysctl: name=kernel.sysrq value=1 state=present
+
+- name: DEPLOY KVM | Installing packages
+  yum: name="{{ item }}" state=latest
+  with_items: "{{ libvirt_packages }}"
+
+- name: DEPLOY KVM | Open port
+  firewalld:
+    port="{{ item }}"/tcp
+    state=disabled
+    zone=public
+    permanent=yes
+    immediate=true
+  with_items:
+    - "{{ libvirt_ports }}"
+
+- name: DEPLOY KVM | Labeling SELinux port for libvirt
+  seport:
+    ports="{{ item }}"
+    proto=tcp
+    setype=virt_port_t
+    state=present
+  with_items: "{{ libvirt_ports}}"
+
+- name: DEPLOY KVM | Enabling and starting libvirtd service
+  service:
+    name=libvirtd
+    state=started
+    enabled=yes
+
+- name: DEPLOY KVM NETWORK | Creating internal network
+  virt_net:
+    command=define
+    name="{{ internal_network_name }}"
+    xml='{{ lookup("template", "../templates/internal.xml.j2") }}'
+    autostart=yes
+
+- name: DEPLOY KVM NETWORK | Starting internal network
+  virt_net:
+    name="{{ internal_network_name }}"
+    state=active
+
+- name: DEPLOY KVM NETWORK | Creating external network
+  virt_net:
+    command=define
+    name="{{ external_network_name }}"
+    xml='{{ lookup("template", "../templates/external.xml.j2") }}'
+    autostart=yes
+
+- name: DEPLOY KVM NETWORK | Starting external network
+  virt_net:
+    name="{{ external_network_name }}"
+    state=active
+
+- name: DEPLOY KVM STORAGE | Creating Vm directory
+  file:
+    path='{{ storage_pool_location }}'
+    state=directory mode=0755
+
+- name: DEPLOY KVM STORAGE | Creating VM spool
+  virt_pool:
+    command=define
+    name="{{ storage_name }}"
+    xml='{{ lookup("template", "../templates/storage.example.demo.xml.j2") }}'
+
+- name: DEPLOY KVM STORAGE | Starting VM spool
+  virt_pool:
+    name="{{ storage_name }}"
+    state=active
