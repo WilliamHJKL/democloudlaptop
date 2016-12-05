@@ -1,3 +1,0 @@
----
-storage_name: vmsstorage
-storage_pool_location: /var/lib/libvirt/images/vms
