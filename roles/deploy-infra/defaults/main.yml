@@ -10,10 +10,6 @@ libvirt_packages:
   - virt-manager
   - virt-install
 
-libvirt_ports:
-    - 16509
-    - 16514
-
 internal_network_name: rzointern
 external_network_name: rzoextern
 
