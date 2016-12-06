@@ -1,9 +1,7 @@
 <network>
+  <autostart>yes</autostart>
   <name>{{ external_network_name }}</name>
   <forward mode='nat'>
-    <nat>
-      <port start='1024' end='65535'/>
-    </nat>
   </forward>
   <bridge name='brexternal' stp='on' delay='0'/>
   <domain name='external'/>
