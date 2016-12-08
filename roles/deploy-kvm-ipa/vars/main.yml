@@ -1,5 +1,6 @@
 ---
-vm_name: 'srv'
+vm_name: '{{ ipa_name }}'
+vm_hostname: '{{ vm_name }}.{{ dns_name }}'
 vm_mem_size: '2048'
 vm_mem_size_max: '2048'
 vm_disk_size: '10'
@@ -14,4 +15,4 @@ timezone: 'Europe/Paris'
 
 ks_repo:
   EL:
-    7: ftp://localhost/pub/EL7
+    7: ftp://{{ kvm_host_ip }}/pub/EL7
