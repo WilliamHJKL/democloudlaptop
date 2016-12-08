@@ -1,0 +1,32 @@
+lang {{ lang }}.UTF-8
+keyboard {{ keyboard }}
+
+auth --enableshadow --passalgo=sha512
+
+text
+
+firstboot --enable
+
+# Network information
+network  onboot=yes --bootproto=static --ip={{ ext_ipa_ip }} --netmask={{ ext_net_netmask }} --gateway={{ kvm_host_ip }} --nameserver={{ kvm_host_ip }} --activate
+# Root password
+rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
+# System timezone
+timezone America/New_York --isUtc
+# System bootloader configuration
+bootloader --location=mbr --boot-drive=vda
+autopart --type=lvm
+
+services --enabled=sshd
+firewall --service=ssh
+
+reboot
+
+%packages
+@core
+
+%end
+
+# %addon com_redhat_kdump --disable --reserve-mb='auto'
+
+%end
