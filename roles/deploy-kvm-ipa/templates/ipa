@@ -5,17 +5,19 @@ auth --enableshadow --passalgo=sha512
 
 text
 
-firstboot --enable
-
-# Network information
 network  onboot=yes --bootproto=static --ip={{ ext_ipa_ip }} --netmask={{ ext_net_netmask }} --gateway={{ kvm_host_ip }} --nameserver={{ kvm_host_ip }} --activate
-# Root password
+
 rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
-# System timezone
-timezone America/New_York --isUtc
-# System bootloader configuration
+
+timezone Europe/Paris --isUtc
+
 bootloader --location=mbr --boot-drive=vda
-autopart --type=lvm
+zerombr
+clearpart --all --drive=vda
+part /boot --fstype=ext4 --size=500 --asprimary
+part pv.01 --grow --size=5000
+volgroup vg_root_{{ vm_name }} pv.01
+logvol / --vgname=vg_root_{{ vm_name }} --fstype=ext4 --grow --size=5000 --name=lvroot
 
 services --enabled=sshd
 firewall --service=ssh
@@ -24,6 +26,9 @@ reboot
 
 %packages
 @core
+openssh-server
+python
+
 
 %end
 

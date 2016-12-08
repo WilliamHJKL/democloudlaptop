@@ -29,10 +29,10 @@ libvirt_packages:
   - virt-manager
   - virt-install
 
-internal_network_name: rzointern
-external_network_name: rzoextern
+internal_network_name: myrzointern
+external_network_name: myrzoextern
 
-dns_name: dnsexample
+dns_name: dnsexample.org
 
 storage_name: vmsstorage
 storage_pool_location: /var/lib/libvirt/images/vms
