@@ -36,7 +36,7 @@
     name: "{{ vm_hostname }}"
   register: vmstatus
   until: vmstatus.status == 'shutdown'
-  retries: 1500
+  retries: 500
   delay: 10
 
 - name: Start the VM for {{ vm_hostname }}
