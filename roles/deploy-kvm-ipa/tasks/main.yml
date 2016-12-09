@@ -19,21 +19,27 @@
     - kickstart
 
 - name: Run the virt-install
-  command: /usr/bin/virt-install -n {{ vm_name }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network bridge=brexternal,model=virtio,mac=00:16:3e:ef:0f:8a -l ftp://192.168.200.1/pub/EL/7/ -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  command: /usr/bin/virt-install -n {{ vm_hostname }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network bridge=brexternal,model=virtio,mac=00:16:3e:ef:0f:8a -l ftp://192.168.200.1/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
   tags:
     - virt-install
 
 - name: Wait for the install to finish
   virt:
     command: status
-    name: "{{ vm_name }}"
+    name: "{{ vm_hostname }}"
+  register: vmstatus
+- debug: msg="{{ vmstatus }}"
+
+- name: Wait for the install to finish
+  virt:
+    command: status
+    name: "{{ vm_hostname }}"
   register: vmstatus
   until: vmstatus.status == 'shutdown'
   retries: 1500
   delay: 10
 
-- name: Start the VM for {{ vm_name }}
+- name: Start the VM for {{ vm_hostname }}
   virt:
     command: start
-    name: "{{ vm_name }}"
-    when: name not in result.list_vms
+    name: "{{ vm_hostname }}"

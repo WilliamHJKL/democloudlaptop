@@ -1,10 +1,17 @@
-lang {{ lang }}.UTF-8
-keyboard {{ keyboard }}
+# Keyboard layouts
+keyboard --vckeymap=us --xlayouts='us'
+# System language
+lang en_US.UTF-8
 
 auth --enableshadow --passalgo=sha512
 
+# Use network installation
+url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
+
 text
 
+# network  --bootproto=dhcp --device=eth0 --ipv6=auto --activate
+# network  --bootproto=static --gateway=192.168.200.1 --ip=192.168.200.254 --nameserver=192.168.200.1 --netmask=255.255.255.0 --ipv6=auto --activate
 network  onboot=yes --bootproto=static --ip={{ ext_ipa_ip }} --netmask={{ ext_net_netmask }} --gateway={{ kvm_host_ip }} --nameserver={{ kvm_host_ip }} --activate
 
 rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
@@ -32,6 +39,6 @@ python
 
 %end
 
-# %addon com_redhat_kdump --disable --reserve-mb='auto'
+%addon com_redhat_kdump --disable --reserve-mb='auto'
 
 %end
