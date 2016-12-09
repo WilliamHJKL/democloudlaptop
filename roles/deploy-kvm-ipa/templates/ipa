@@ -1,18 +1,16 @@
-# Keyboard layouts
 keyboard --vckeymap=us --xlayouts='us'
-# System language
 lang en_US.UTF-8
 
 auth --enableshadow --passalgo=sha512
 
-# Use network installation
 url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
 
 text
 
-# network  --bootproto=dhcp --device=eth0 --ipv6=auto --activate
-# network  --bootproto=static --gateway=192.168.200.1 --ip=192.168.200.254 --nameserver=192.168.200.1 --netmask=255.255.255.0 --ipv6=auto --activate
-network  onboot=yes --bootproto=static --ip={{ ext_ipa_ip }} --netmask={{ ext_net_netmask }} --gateway={{ kvm_host_ip }} --nameserver={{ kvm_host_ip }} --activate
+network  onboot=yes --bootproto=static --device=eth0 --ip={{ ext_ipa_ip }} --netmask={{ ext_net_netmask }} --gateway={{ kvm_host_ip }} --nameserver={{ kvm_host_ip }} --activate
+network  onboot=yes --bootproto=static --device=eth1 --ip={{ int_ipa_ip }} --netmask={{ int_net_netmask }}
+
+network  --hostname={{ vm_hostname }}
 
 rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
 
@@ -35,6 +33,13 @@ reboot
 @core
 openssh-server
 python
+ipa-admintools
+ipa-server
+ipa-server-common
+ipa-server-dns
+sssd-ipa
+ipa-server-trust-ad
+ipa-client
 
 
 %end
