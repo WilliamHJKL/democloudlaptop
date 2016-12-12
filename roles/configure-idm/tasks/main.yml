@@ -22,9 +22,11 @@
     --domain {{ dns_name }}
     --realm {{ dns_name  | upper }}
     --setup-dns
+    --auto-reverse
     --forwarder {{ kvm_host_ip }}
     --idstart 1000
-    -- idmax 65535
+    --idmax 65535
     --mkhomedir
     -a {{ ipaserver_admin_password }}
     -p {{ ipaserver_dir_admin_password }}
+    -U
