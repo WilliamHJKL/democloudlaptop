@@ -6,7 +6,7 @@
   <ip address='{{ kvm_host_int_ip }}' netmask='255.255.255.0'>
   <dhcp>
   <range start='{{ int_net_dhcprangestart }}' end='{{ int_net_dhcprangestop }}'/>
-      <host mac='{{ int_ipa_mac }}' name='{{ ipa_name }}.{{ dns_name }}' ip='{{ int_ipa_ip }}'/>
+      <host mac='{{ int_idm_mac }}' name='{{ idm_name }}.{{ dns_name }}' ip='{{ int_idm_ip }}'/>
       <host mac='{{ int_sat_mac }}' name='{{ sat_name }}.{{ dns_name }}' ip='{{ int_sat_ip }}'/>
       <host mac='{{ int_tower_mac }}' name='{{ tower_name }}.{{ dns_name }}' ip='{{ int_tower_ip }}'/>
   </dhcp>
