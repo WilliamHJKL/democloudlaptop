@@ -4,6 +4,9 @@
 # TODO :
 - Configure IPA : WIP
 - Configure host to use the idm for dns resolution on zone $dns_name
+- - > /etc/NetworkManager/dnsmasq.d
+- - > server=/example.demo/172.31.0.254
+- - > server=/31.172.in-addr.arpa./172.31.0.254
 - Deploy Satellite
 - Configure Satellite.
 # DONE :
