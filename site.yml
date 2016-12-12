@@ -1,8 +1,15 @@
 ---
-- name: Deploy a demo infrastructure
+- name: Deploy and configure kvm
   hosts: kvmhosts
   become: yes
 
   roles:
     - deploy-infra
     - deploy-kvm-ipa
+
+- name: Configure ipa
+  hosts: IDM Server
+  become: yes
+
+  roles:
+    - configure-idm
