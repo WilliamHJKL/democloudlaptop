@@ -43,3 +43,11 @@
   virt:
     command: start
     name: "{{ vm_hostname }}"
+
+- name: Check that the VM is running.
+  virt:
+    command: status
+  register: vmstatus
+  until: vmstatus.status == 'running'
+  retries: 50
+  delay: 10

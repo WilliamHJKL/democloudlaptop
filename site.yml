@@ -1,15 +1,16 @@
 ---
-- name: Deploy and configure kvm
+- name: Deploy, configure kvm, and deploy VMs.
   hosts: kvmhosts
   become: yes
 
   roles:
     - deploy-infra
-    - deploy-kvm-ipa
+    - deploy-vm-idm
 
-- name: Configure ipa
-  hosts: IDM Server
+- name: Configure IDM
+  hosts: idmserver
   become: yes
+  become_user: root
 
   roles:
     - configure-idm

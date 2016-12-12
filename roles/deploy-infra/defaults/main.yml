@@ -45,7 +45,7 @@ libvirt_packages:
 internal_network_name: production
 external_network_name: hostile
 
-dns_name: foo.org
+dns_name: mondomain.org
 
 storage_name: vmsstorage
 storage_pool_location: /var/lib/libvirt/images/vms

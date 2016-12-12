@@ -1,0 +1,30 @@
+---
+- name: Set the hostname
+  hostname: name={{ ansible_fqdn }}
+
+- name: Setup the firewall
+  firewalld: service={{ item }} permanent=true state=enabled
+  with_items:
+     - freeipa-ldap
+     - https
+     - http
+     - ldaps
+     - ldap
+     - kerberos
+     - kpasswd
+     - dns
+     - ntp
+
+- name: setup IDM
+  command: ipa-server-install
+    --hostname {{ ansible_fqdn }}
+    --ip-address {{ ext_idm_ip }}
+    --domain {{ dns_name }}
+    --realm {{ dns_name  | upper }}
+    --setup-dns
+    --forwarder {{ kvm_host_ip }}
+    --idstart 1000
+    -- idmax 65535
+    --mkhomedir
+    -a {{ ipaserver_admin_password }}
+    -p {{ ipaserver_dir_admin_password }}
