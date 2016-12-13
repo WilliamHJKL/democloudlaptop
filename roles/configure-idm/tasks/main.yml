@@ -1,8 +1,32 @@
 ---
-- name: Set the hostname
+- name: CONFIGURE IDM | Set the hostname
   hostname: name={{ ansible_fqdn }}
 
-- name: Setup the firewall
+- name: CONFIGURE IDM | Configure {{ ansible_fqdn }} as a router
+  firewalld:
+    masquerade: yes
+    state: enabled
+    permanent: true
+
+- name: CONFIGURE IDM | Setup IDM
+  command: ipa-server-install
+    --hostname {{ ansible_fqdn }}
+    --ip-address {{ ext_idm_ip }}
+    --ip-address {{ int_idm_ip }}
+    --domain {{ dns_name }}
+    --realm {{ dns_name  | upper }}
+    --setup-dns
+    --reverse-zone={{ ext_net_rev }}.in-addr.arpa
+    --reverse-zone={{ int_net_rev }}.in-addr.arpa
+    --forwarder {{ kvm_host_ip }}
+    --idstart 1000
+    --idmax 65535
+    --mkhomedir
+    -a {{ ipaserver_admin_password }}
+    -p {{ ipaserver_dir_admin_password }}
+    -U
+
+- name: CONFIGURE IDM | Setup the firewall
   firewalld: service={{ item }} permanent=true state=enabled
   with_items:
      - freeipa-ldap
@@ -14,19 +38,3 @@
      - kpasswd
      - dns
      - ntp
-
-- name: setup IDM
-  command: ipa-server-install
-    --hostname {{ ansible_fqdn }}
-    --ip-address {{ ext_idm_ip }}
-    --domain {{ dns_name }}
-    --realm {{ dns_name  | upper }}
-    --setup-dns
-    --auto-reverse
-    --forwarder {{ kvm_host_ip }}
-    --idstart 1000
-    --idmax 65535
-    --mkhomedir
-    -a {{ ipaserver_admin_password }}
-    -p {{ ipaserver_dir_admin_password }}
-    -U

@@ -24,7 +24,7 @@ part pv.01 --grow --size=5000
 volgroup vg_root_{{ vm_name }} pv.01
 logvol / --vgname=vg_root_{{ vm_name }} --fstype=ext4 --grow --size=5000 --name=lvroot
 
-services --enabled=sshd
+services --enabled=sshd,dns,https,http
 firewall --service=ssh
 
 reboot
@@ -40,6 +40,7 @@ ipa-server-dns
 sssd-ipa
 ipa-server-trust-ad
 ipa-client
+rng-tools
 
 
 %end
