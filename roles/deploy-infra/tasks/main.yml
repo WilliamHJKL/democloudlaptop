@@ -55,7 +55,7 @@
   tags:
     - network
 
-- name: DEPLOY KVM NETWORK | Configure host to use {{ idm_name }} for {{ dns_name }} resolution 
+- name: DEPLOY KVM NETWORK | Configure host to use {{ idm_name }} for {{ dns_name }} resolution
   template:
     src: templates/dns_name.j2
     dest: /etc/NetworkManager/dnsmasq.d/{{ dns_name }}.conf
