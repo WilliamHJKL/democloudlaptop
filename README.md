@@ -4,8 +4,9 @@
 the momemt it deploy network, storage and one vm. You need a ftp server
 running on your laptop.
 - Configure variables in group_vars/all or in roles/name/vars/main.yml.
-- Run : <ansible-playbook -k --ask-become-pass -i hosts site.yml> as a
-simple user. The user need to have correct authorization in sudo.
+- Run :
+> ansible-playbook -k --ask-become-pass -i hosts site.yml
+as a simple user. The user need to have correct authorization in sudo.
 
 ## TODO
 
