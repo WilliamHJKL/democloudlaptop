@@ -13,7 +13,7 @@
 
 - name: Install the kickstart for {{ vm_name }}
   template:
-    src: idm
+    src: sat
     dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
   tags:
     - kickstart

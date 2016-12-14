@@ -2,3 +2,5 @@
 127.0.0.1
 [idmserver]
 192.168.200.254 ansible_user=root ansible_ssh_pass=redhat
+[satserver]
+192.168.200.253 ansible_user=root ansible_ssh_pass=redhat
