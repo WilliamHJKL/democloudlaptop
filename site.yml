@@ -5,13 +5,20 @@
 
   roles:
 #    - deploy-infra
-#    - deploy-vm-idm
-    - deploy-vm-sat
+#   - deploy-vm-idm
+#    - deploy-vm-sat
 
 - name: Configure IDM
   hosts: idmserver
   become: yes
   become_user: root
+
+  vars_prompt:
+    - name: "rhn_username"
+      prompt: "Please enter your rhn username"
+
+    - name: "rhn_password"
+      prompt: "Please enter your rhn password"
 
   roles:
     - configure-idm

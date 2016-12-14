@@ -1,9 +1,15 @@
 ---
+vars_prompt:
+  - name: "rhn_username"
+    prompt: "Please enter your rhn username"
+  - name: "rhn_password"
+    prompt: "Please enter your rhn password"
+
 kvm_host_ip: '192.168.200.1'
 kvm_host_netmask: '255.255.255.0'
 kvm_host_int_ip: '172.32.0.1'
 
-dns_name: redhat.demo
+dns_name: foo.demo
 
 storage_name: example-storage
 storage_pool_location: /var/lib/libvirt/images/vms

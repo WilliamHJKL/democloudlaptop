@@ -2,6 +2,30 @@
 - name: CONFIGURE IDM | Set the hostname
   hostname: name={{ ansible_fqdn }}
 
+- name: CONFIGURE IDM | Subscribe the system to RHN
+  redhat_subscription: state=present username={{ rhn_username }} password={{ rhn_password }} pool='^(Red Hat Enterprise Linux Self-Supported|Red Hat Satellite Employee Subscription)$'
+
+- name: CONFIGURE IDM | Setup the firewall
+  firewalld: service={{ item }} permanent=true state=enabled
+  with_items:
+     - freeipa-ldap
+     - https
+     - http
+     - ldaps
+     - ldap
+     - kerberos
+     - kpasswd
+     - dns
+     - ntp
+
+- name: CONFIGURE IDM | Configure ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
 - name: CONFIGURE IDM | Configure {{ ansible_fqdn }} as a router
   firewalld:
     masquerade: yes
@@ -16,8 +40,8 @@
     --domain {{ dns_name }}
     --realm {{ dns_name  | upper }}
     --setup-dns
-    --reverse-zone={{ ext_net_rev }}.in-addr.arpa
-    --reverse-zone={{ int_net_rev }}.in-addr.arpa
+    --reverse-zone={{ int_net_rev }}.in-addr.arpa.
+    --reverse-zone={{ ext_net_rev }}.in-addr.arpa.
     --forwarder {{ kvm_host_ip }}
     --idstart 1000
     --idmax 65535
@@ -26,15 +50,8 @@
     -p {{ ipaserver_dir_admin_password }}
     -U
 
-- name: CONFIGURE IDM | Setup the firewall
-  firewalld: service={{ item }} permanent=true state=enabled
-  with_items:
-     - freeipa-ldap
-     - https
-     - http
-     - ldaps
-     - ldap
-     - kerberos
-     - kpasswd
-     - dns
-     - ntp
+- name: CONFIGURE IDM | Update all packages.
+  yum:
+    name: '*'
+    state: latest
+
