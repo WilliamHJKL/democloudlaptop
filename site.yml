@@ -4,8 +4,8 @@
   become: yes
 
   roles:
-#    - deploy-infra
-#   - deploy-vm-idm
+    - deploy-infra
+    - deploy-vm-idm
 #    - deploy-vm-sat
 
 - name: Configure IDM

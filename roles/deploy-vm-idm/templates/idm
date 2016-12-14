@@ -23,6 +23,7 @@ part /boot --fstype=ext4 --size=500 --asprimary
 part pv.01 --grow --size=5000
 volgroup vg_root_{{ vm_name }} pv.01
 logvol / --vgname=vg_root_{{ vm_name }} --fstype=ext4 --grow --size=5000 --name=lvroot
+logvol swap --vgname=vg_root_{{ vm_name }} --fstype=swap --size=1024 --name=swap
 
 services --enabled=sshd,dns,https,http
 firewall --service=ssh
