@@ -11,21 +11,27 @@
 #  roles:
 #    - deploy-vm-idm
 #
-#- name: Configure IDM
-#  hosts: idmserver
-#  become: yes
-#
-#  vars_prompt:
-#    - name: "rhn_username"
-#      prompt: "Please enter your rhn username"
-#
-#    - name: "rhn_password"
-#      prompt: "Please enter your rhn password"
-#  roles:
-#    - configure-idm
+- name: Configure IDM
+  hosts: idmserver
+  become: yes
+
+  vars_prompt:
+    - name: "rhn_username"
+      prompt: "Please enter your rhn username"
+
+    - name: "rhn_password"
+      prompt: "Please enter your rhn password"
+  roles:
+    - configure-idm
 
 - name: Deploy Red Hat Satellite virtual machine
   hosts: kvmhosts
   become: yes
   roles:
     - deploy-vm-sat
+
+- name: Configure SAT
+  hosts: satserver
+  become: yes
+  roles:
+    - configure-sat

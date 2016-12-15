@@ -10,8 +10,11 @@ ansible-playbook -k --ask-become-pass -i hosts site.yml
 ```
 as a simple user. The user need to have correct authorization in sudo.
 
+## FIXME
+
+- Fix masquerading.
+
 ## TODO
-- Configure repository
 - Configure Satellite.
 - - Register in RHN
 - - Register in IPA.
@@ -23,6 +26,7 @@ as a simple user. The user need to have correct authorization in sudo.
 - Deploy vm IDM
 - Configure IDM
 - Deploy Satellite
+- Configure repository
 
 ## FIXME
 
