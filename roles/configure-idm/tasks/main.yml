@@ -5,6 +5,17 @@
 - name: CONFIGURE IDM | Subscribe the system to RHN
   redhat_subscription: state=present username={{ rhn_username }} password={{ rhn_password }} pool='^(Red Hat Enterprise Linux Self-Supported|Red Hat Satellite Employee Subscription)$'
 
+- name: CONFIGURE IDM | Disable all the repos.
+  command: subscription-manager repos --disable="*"
+
+- name: CONFIGURE IDM | Enable the appropriate repos.
+  command: subscription-manager repos --enable={{ item }}
+  with_items:
+    - rhel-7-server-rpms
+    - rhel-7-server-extras-rpms
+    - rhel-7-server-rh-common-rpms
+    - rhel-7-server-optional-rpms
+
 - name: CONFIGURE IDM | Setup the firewall
   firewalld: service={{ item }} permanent=true state=enabled immediate=true
   with_items:
@@ -51,6 +62,11 @@
     -a {{ ipaserver_admin_password }}
     -p {{ ipaserver_dir_admin_password }}
     -U
+
+- name: CONFIGURE IDM | Configure host to use {{ idm_name }} for {{ dns_name }} resolution
+  template:
+    src: templates/dns_name.j2
+    dest: /etc/NetworkManager/dnsmasq.d/{{ dns_name }}.conf
 
 - name: CONFIGURE IDM | Update all packages.
   yum:

@@ -1,0 +1,17 @@
+---
+- name: CONFIGURE SAT | Set the hostname
+  hostname: name={{ ansible_fqdn }}
+
+- name: CONFIGURE SAT | Subscribe the system to RHN
+  redhat_subscription: state=present username={{ rhn_username }} password={{ rhn_password }} pool='^(Red Hat Enterprise Linux Self-Supported|Red Hat Satellite Employee Subscription)$'
+
+- name: CONFIGURE SAT | Disable all the repos.
+  command: subscription-manager repos --disable="*"
+
+  - name: CONFIGURE SAT | Enable the appropriate repos.
+    command: subscription-manager repos --enable={{ item }}
+  with_items:
+    - rhel-7-server-rpms
+    - rhel-server-rhscl-7-rpms
+    - rhel-7-server-satellite-6.2-rpms
+
