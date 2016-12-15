@@ -39,10 +39,10 @@
 
 - name: CONFIGURE IDM | Configure {{ ansible_fqdn }} as a router
   firewalld:
-    zone: public
     masquerade: yes
-    state: enabled
     permanent: true
+    state: enabled
+    zone: public
 
 - name: CONFIGURE IDM | Setup IDM
   command: ipa-server-install
@@ -62,11 +62,6 @@
     -a {{ ipaserver_admin_password }}
     -p {{ ipaserver_dir_admin_password }}
     -U
-
-- name: CONFIGURE IDM | Configure host to use {{ idm_name }} for {{ dns_name }} resolution
-  template:
-    src: templates/dns_name.j2
-    dest: /etc/NetworkManager/dnsmasq.d/{{ dns_name }}.conf
 
 - name: CONFIGURE IDM | Update all packages.
   yum:

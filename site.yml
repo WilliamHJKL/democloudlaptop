@@ -1,16 +1,16 @@
 ---
-#- name: Deploy and configure kvm
-#  hosts: kvmhosts
-#  become: yes
-#  roles:
-#    - deploy-infra
-#
-#- name: Deploy IDM virtual machine
-#  hosts: kvmhosts
-#  become: yes
-#  roles:
-#    - deploy-vm-idm
-#
+- name: Deploy and configure kvm
+  hosts: kvmhosts
+  become: yes
+  roles:
+    - deploy-infra
+
+- name: Deploy IDM virtual machine
+  hosts: kvmhosts
+  become: yes
+  roles:
+    - deploy-vm-idm
+
 - name: Configure IDM
   hosts: idmserver
   become: yes
@@ -23,6 +23,12 @@
       prompt: "Please enter your rhn password"
   roles:
     - configure-idm
+
+- name: Deploy IDM virtual machine
+  hosts: kvmhosts
+  become: yes
+  roles:
+    - configure-host
 
 - name: Deploy Red Hat Satellite virtual machine
   hosts: kvmhosts

@@ -19,7 +19,7 @@
     - kickstart
 
 - name: DEPLOY VM IDM | Run the virt-install
-  command: /usr/bin/virt-install -n {{ vm_hostname }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network bridge=brexternal,model=virtio,mac={{ ext_idm_mac }} --network bridge=brinternal,model=virtio,mac={{ int_idm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  command: /usr/bin/virt-install -n {{ vm_hostname }} {{ vm_memory_options }} --disk pool={{ storage_name}},size={{ vm_disk_size }} --vcpus={{ vm_num_cpus }},maxvcpus={{ vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ external_network_name }},model=virtio,mac={{ ext_idm_mac }} --network network={{ internal_network_name }},model=virtio,mac={{ int_idm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
   tags:
     - virt-install
 

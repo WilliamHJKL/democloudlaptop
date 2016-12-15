@@ -1,0 +1,25 @@
+---
+#- name: Remove idm.
+#  virt:
+#    name: srv.foo.demo
+#    command: undefine
+
+#- name: Remove sat.
+#  virt:
+#    name: sat.foo.demo
+#    command: undefine
+
+- name: Remove networks 1
+  virt_net:
+    state: absent
+    name: redhat-external
+
+- name: Remove networks 2
+  virt_net:
+    state: absent
+    name: redhat-internal
+
+- name: Remove storage
+  virt_pool:
+    state: deleted
+    name: example-storage
