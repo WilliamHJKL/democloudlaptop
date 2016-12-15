@@ -6,7 +6,7 @@
   redhat_subscription: state=present username={{ rhn_username }} password={{ rhn_password }} pool='^(Red Hat Enterprise Linux Self-Supported|Red Hat Satellite Employee Subscription)$'
 
 - name: CONFIGURE IDM | Setup the firewall
-  firewalld: service={{ item }} permanent=true state=enabled
+  firewalld: service={{ item }} permanent=true state=enabled immediate=true
   with_items:
      - freeipa-ldap
      - https
@@ -28,6 +28,7 @@
 
 - name: CONFIGURE IDM | Configure {{ ansible_fqdn }} as a router
   firewalld:
+    zone: public
     masquerade: yes
     state: enabled
     permanent: true
@@ -40,8 +41,9 @@
     --domain {{ dns_name }}
     --realm {{ dns_name  | upper }}
     --setup-dns
-    --reverse-zone={{ int_net_rev }}.in-addr.arpa.
-    --reverse-zone={{ ext_net_rev }}.in-addr.arpa.
+    --reverse-zone {{ int_net_rev }}.in-addr.arpa.
+    --reverse-zone {{ ext_net_rev }}.in-addr.arpa.
+    --allow-zone-overlap
     --forwarder {{ kvm_host_ip }}
     --idstart 1000
     --idmax 65535

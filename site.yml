@@ -1,24 +1,31 @@
 ---
-- name: Deploy, configure kvm, and deploy VMs.
+#- name: Deploy and configure kvm
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#    - deploy-infra
+#
+#- name: Deploy IDM virtual machine
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#    - deploy-vm-idm
+#
+#- name: Configure IDM
+#  hosts: idmserver
+#  become: yes
+#
+#  vars_prompt:
+#    - name: "rhn_username"
+#      prompt: "Please enter your rhn username"
+#
+#    - name: "rhn_password"
+#      prompt: "Please enter your rhn password"
+#  roles:
+#    - configure-idm
+
+- name: Deploy Red Hat Satellite virtual machine
   hosts: kvmhosts
   become: yes
-
   roles:
-    - deploy-infra
-    - deploy-vm-idm
-#    - deploy-vm-sat
-
-- name: Configure IDM
-  hosts: idmserver
-  become: yes
-  become_user: root
-
-  vars_prompt:
-    - name: "rhn_username"
-      prompt: "Please enter your rhn username"
-
-    - name: "rhn_password"
-      prompt: "Please enter your rhn password"
-
-  roles:
-    - configure-idm
+    - deploy-vm-sat

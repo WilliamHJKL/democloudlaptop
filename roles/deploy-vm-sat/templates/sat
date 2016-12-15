@@ -7,7 +7,7 @@ url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
 
 text
 
-network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_sat_ip }} --netmask={{ int_net_netmask }} --gateway={{ idm_name }}.{{ dns_name }}  --nameserver={{ idm_name }}.{{ dns_name }} --activate
+network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_sat_ip }} --netmask={{ int_net_netmask }} --gateway={{ int_idm_ip }}  --nameserver={{ int_idm_ip }} --activate
 network  --hostname={{ vm_hostname }}
 
 rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
