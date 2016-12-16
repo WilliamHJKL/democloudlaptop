@@ -3,17 +3,17 @@ kvm_host_ip: '192.168.200.1'
 kvm_host_netmask: '255.255.255.0'
 kvm_host_int_ip: '172.32.0.1'
 
-dns_name: foo.demo
+dns_name: domain.demo
 
-storage_name: example-storage
-storage_pool_location: /var/lib/libvirt/images/vms
+storage_name: domain-storage
+storage_pool_location: /var/lib/libvirt/images/{{ storage_name }}
 
 idm_name: srv
 sat_name: sat
 tower_name: tower
 
-internal_network_name: redhat-internal
-external_network_name: redhat-external
+internal_network_name: domain-internal
+external_network_name: domain-external
 
 ext_net_dhcprangestart: '192.168.200.250'
 ext_net_dhcprangestop: '192.168.200.251'

@@ -24,7 +24,7 @@
   roles:
     - configure-idm
 
-- name: Deploy IDM virtual machine
+- name: Configure host
   hosts: kvmhosts
   become: yes
   roles:

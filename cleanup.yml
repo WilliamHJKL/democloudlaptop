@@ -1,0 +1,6 @@
+---
+- name: Deploy and configure kvm
+  hosts: kvmhosts
+  become: yes
+  roles:
+    - cleanup

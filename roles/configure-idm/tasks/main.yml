@@ -28,6 +28,8 @@
      - kpasswd
      - dns
      - ntp
+    notify:
+        - restart firewalld
 
 - name: CONFIGURE IDM | Configure ip_forward
   sysctl:

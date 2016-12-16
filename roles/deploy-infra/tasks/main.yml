@@ -66,7 +66,7 @@
   virt_pool:
     command=define
     name="{{ storage_name }}"
-    xml='{{ lookup("template", "../templates/storage.example.demo.xml.j2") }}'
+    xml='{{ lookup("template", "../templates/storage.xml.j2") }}'
   tags:
     - storage
 

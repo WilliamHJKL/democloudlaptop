@@ -1,25 +1,29 @@
 ---
-#- name: Remove idm.
-#  virt:
-#    name: srv.foo.demo
-#    command: undefine
+- name: Destroy VMs
+  virt: name={{ item }}.{{ dns_name }} command=destroy
+  with_items:
+  - "{{ idm_name }}"
+  - "{{ sat_name }}"
+  - "{{ tower_name }}"
+  ignore_errors: True
 
-#- name: Remove sat.
-#  virt:
-#    name: sat.foo.demo
-#    command: undefine
+- name: Undefine VMs
+  virt: name={{ item }}.{{ dns_name }} command=undefine
+  with_items:
+  - "{{ idm_name }}"
+  - "{{ sat_name }}"
+  - "{{ tower_name }}"
+  ignore_errors: True
 
-- name: Remove networks 1
-  virt_net:
-    state: absent
-    name: redhat-external
-
-- name: Remove networks 2
-  virt_net:
-    state: absent
-    name: redhat-internal
+- name: Remove networks
+  virt_net: name={{ item }} state=absent
+  with_items:
+  - "{{ internal_network_name }}"
+  - "{{ external_network_name }}"
+  ignore_errors: True
 
 - name: Remove storage
   virt_pool:
-    state: deleted
-    name: example-storage
+    command: delete
+    name: "{{ storage_name }}"
+  ignore_errors: True
