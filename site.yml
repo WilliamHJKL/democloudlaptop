@@ -1,32 +1,32 @@
 ---
-### INFRA + IDM
-- name: Deploy infrastructure and IDM
-  hosts: kvmhosts
-  become: yes
-  roles:
-    - deploy-infra
-    - deploy-vm-idm
-### CONFIG IDM
-- name: Configure IDM
-  hosts: idmserver
-  become: yes
-  vars_prompt:
-    - name: "rhn_activationkey"
-      prompt: "Please enter your activationkey"
-    - name: "rhn_orgid"
-      prompt: "Please enter your orgid (5318211)"
-      default: "5318211"
-  roles:
-    - common
-    - configure-idm
+#### INFRA + IDM
+#- name: Deploy infrastructure and IDM
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#    - deploy-infra
+#    - deploy-vm-idm
+#### CONFIG IDM
+#- name: Configure IDM
+#  hosts: idmserver
+#  become: yes
+#  vars_prompt:
+#    - name: "rhn_activationkey"
+#      prompt: "Please enter your activationkey"
+#    - name: "rhn_orgid"
+#      prompt: "Please enter your orgid (5318211)"
+#      default: "5318211"
+#  roles:
+#    - common
+#    - configure-idm
+#
+#- name: Configure host dns
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#    - configure-host
 
-- name: Configure host dns
-  hosts: kvmhosts
-  become: yes
-  roles:
-    - configure-host
-
-- name: Deploy blank VM
+- name: Deploy generic VM
   hosts: kvmhosts
   become: yes
   vars_prompt:
@@ -36,14 +36,36 @@
       prompt: "Please enter your orgid"
       default: "5318211"
   roles:
-    - deploy-vm-blank
+    - deploy-vm-generic
     - common
+# Next step :
+#- name: Deploy changeme
+#  hosts: kvmhosts
+#  become: yes
+#  vars_prompt:
+#    - name: "rhn_activationkey"
+#      prompt: "Please enter your activationkey"
+#    - name: "rhn_orgid"
+#      prompt: "Please enter your orgid"
+#      default: "5318211"
+#  roles:
+#    - deploy-vm-generic
+#    vm_name: changeme
+#    vm_hostname: '{{ vm_name }}.{{ dns_name }}'
+#    vm_mem_size: '2048'
+#    vm_mem_size_max: '2048'
+#    vm_disk_size: '10'
+#    vm_num_cpus: '2'
+#    vm_num_cpus_max: '4'
+#
+#    vm_memory_options: "--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio"
+#    - common
 
 # - name: Deploy other VM
 #  hosts: kvmhosts
 #  become: yes
 #  roles:
-#    - deploy-vm-blank
+#    - deploy-vm-generic
 #    - deploy-vm-sat
 
 #- name: Common configuration

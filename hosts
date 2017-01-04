@@ -7,9 +7,9 @@
 ansible_user=root
 ansible_ssh_pass=redhat
 
-[blank]
+[generic]
 192.168.200.251
-[blank:vars]
+[generic:vars]
 ansible_user=root
 ansible_ssh_pass=redhat
 

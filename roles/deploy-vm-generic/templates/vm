@@ -7,7 +7,7 @@ url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
 
 text
 
-network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_vmblank_ip }} --netmask={{ int_net_netmask }} --gateway={{ int_idm_ip }}  --nameserver={{ int_idm_ip }} --activate
+network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_vm_generic_ip }} --netmask={{ int_net_netmask }} --gateway={{ int_idm_ip }}  --nameserver={{ int_idm_ip }} --activate
 
 network  --hostname={{ vm_hostname }}
 
@@ -41,8 +41,15 @@ sssd-ipa
 ipa-server-trust-ad
 ipa-client
 rng-tools
+%end
 
 
+%post --log=/root/ks-post.log
+
+/usr/sbin/sshd-keygen
+/bin/hostname > /tmp/hostname.txt
+
+/usr/sbin/ipa-client-install -w {{ ipaserver_admin_password }} -U --enable-dns-updates --domain={{ dns_name }} --mkhomedir --realm {{ dns_name  | upper }} --server={{ idm_name }} --unattended
 %end
 
 %addon com_redhat_kdump --disable --reserve-mb='auto'
