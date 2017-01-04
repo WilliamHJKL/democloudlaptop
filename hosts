@@ -1,6 +1,22 @@
 [kvmhosts]
 127.0.0.1
+
 [idmserver]
-192.168.200.254 ansible_user=root ansible_ssh_pass=redhat
+192.168.200.254
+[idmserver:vars]
+ansible_user=root
+ansible_ssh_pass=redhat
+
+[blank]
+192.168.200.251
+[blank:vars]
+ansible_user=root
+ansible_ssh_pass=redhat
+
 [satserver]
-192.168.200.253 ansible_user=root ansible_ssh_pass=redhat
+192.168.200.253
+[satserver:vars]
+ansible_user=root
+ansible_ssh_pass=redhat
+
+

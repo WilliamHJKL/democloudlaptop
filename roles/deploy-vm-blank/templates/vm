@@ -1,0 +1,50 @@
+keyboard --vckeymap=us --xlayouts='us'
+lang en_US.UTF-8
+
+auth --enableshadow --passalgo=sha512
+
+url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
+
+text
+
+network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_vmblank_ip }} --netmask={{ int_net_netmask }} --gateway={{ int_idm_ip }}  --nameserver={{ int_idm_ip }} --activate
+
+network  --hostname={{ vm_hostname }}
+
+rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
+
+timezone Europe/Paris --isUtc
+
+bootloader --location=mbr --boot-drive=vda
+zerombr
+clearpart --all --drive=vda
+part /boot --fstype=ext4 --size=500 --asprimary
+part pv.01 --grow --size=5000
+volgroup vg_root_{{ vm_name }} pv.01
+logvol / --vgname=vg_root_{{ vm_name }} --fstype=ext4 --grow --size=5000 --name=lvroot
+logvol swap --vgname=vg_root_{{ vm_name }} --fstype=swap --size=1024 --name=swap
+
+services --enabled=sshd,dns,https,http
+firewall --service=ssh
+
+reboot
+
+%packages
+@core
+openssh-server
+python
+ipa-admintools
+ipa-server
+ipa-server-common
+ipa-server-dns
+sssd-ipa
+ipa-server-trust-ad
+ipa-client
+rng-tools
+
+
+%end
+
+%addon com_redhat_kdump --disable --reserve-mb='auto'
+
+%end

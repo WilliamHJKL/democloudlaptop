@@ -9,8 +9,6 @@
   <dhcp>
   <range start='{{ ext_net_dhcprangestart }}' end='{{ ext_net_dhcprangestop }}'/>
     <host mac='{{ ext_idm_mac }}' name='{{ idm_name }}.{{ dns_name }}' ip='{{ ext_idm_ip }}'/>
-    <host mac='{{ ext_sat_mac }}' name='{{ sat_name }}.{{ dns_name }}' ip='{{ ext_sat_ip }}'/>
-    <host mac='{{ ext_tower_mac }}' name='{{ tower_name }}.{{ dns_name }}' ip='{{ ext_tower_ip }}'/>
   </dhcp>
   </ip>
 </network>

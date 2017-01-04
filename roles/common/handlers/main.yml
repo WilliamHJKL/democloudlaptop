@@ -1,0 +1,8 @@
+---
+- name: reload Network Manager
+  service: name=NetworkManager state=reloaded
+
+- name: restart firewalld
+  service: name=firewalld state=restarted
+
+

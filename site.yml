@@ -1,43 +1,69 @@
 ---
-- name: Deploy and configure kvm
+### INFRA + IDM
+- name: Deploy infrastructure and IDM
   hosts: kvmhosts
   become: yes
   roles:
     - deploy-infra
-
-- name: Deploy IDM virtual machine
-  hosts: kvmhosts
-  become: yes
-  roles:
     - deploy-vm-idm
-
+### CONFIG IDM
 - name: Configure IDM
   hosts: idmserver
   become: yes
-
   vars_prompt:
-    - name: "rhn_username"
-      prompt: "Please enter your rhn username"
-
-    - name: "rhn_password"
-      prompt: "Please enter your rhn password"
+    - name: "rhn_activationkey"
+      prompt: "Please enter your activationkey"
+    - name: "rhn_orgid"
+      prompt: "Please enter your orgid (5318211)"
+      default: "5318211"
   roles:
+    - common
     - configure-idm
 
-- name: Configure host
+- name: Configure host dns
   hosts: kvmhosts
   become: yes
   roles:
     - configure-host
 
-- name: Deploy Red Hat Satellite virtual machine
+- name: Deploy blank VM
   hosts: kvmhosts
   become: yes
+  vars_prompt:
+    - name: "rhn_activationkey"
+      prompt: "Please enter your activationkey"
+    - name: "rhn_orgid"
+      prompt: "Please enter your orgid"
+      default: "5318211"
   roles:
-    - deploy-vm-sat
+    - deploy-vm-blank
+    - common
 
-- name: Configure SAT
-  hosts: satserver
-  become: yes
-  roles:
-    - configure-sat
+# - name: Deploy other VM
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#    - deploy-vm-blank
+#    - deploy-vm-sat
+
+#- name: Common configuration
+#  hosts: virtualmachines
+#  vars_prompt:
+#    - name: "rhn_activationkey"
+#      prompt: "Please enter your activationkey"
+#    - name: "rhn_orgid"
+#      prompt: "Please enter your orgid"
+#      default: "5318211"
+#  roles:
+#    - common
+
+##- name: Deploy Red Hat Satellite virtual machine
+#  hosts: kvmhosts
+#  become: yes
+#  roles:
+#
+#- name: Configure SAT
+#  hosts: satserver
+#  become: yes
+#  roles:
+#    - configure-sat

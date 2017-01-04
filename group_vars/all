@@ -3,41 +3,46 @@ kvm_host_ip: '192.168.200.1'
 kvm_host_netmask: '255.255.255.0'
 kvm_host_int_ip: '172.32.0.1'
 
-dns_name: domain.demo
+dns_name: ansible.demo
 
-storage_name: domain-storage
+storage_name: ansible-storage
 storage_pool_location: /var/lib/libvirt/images/{{ storage_name }}
 
 idm_name: srv
 sat_name: sat
 tower_name: tower
+blank_name: blank
 
-internal_network_name: domain-internal
-external_network_name: domain-external
+internal_network_name: ansible-internal
+external_network_name: ansible-external
 
-ext_net_dhcprangestart: '192.168.200.250'
-ext_net_dhcprangestop: '192.168.200.251'
+ext_net_dhcprangestart: '192.168.200.254'
+ext_net_dhcprangestop: '192.168.200.254'
 
-int_net_dhcprangestart: '172.32.0.250'
+int_net_dhcprangestart: '172.32.0.240'
 int_net_dhcprangestop: '172.32.0.251'
 
 ext_idm_mac: '00:16:3e:ef:0f:8a'
-ext_sat_mac: '00:16:3e:ef:0f:8b'
-ext_tower_mac: '00:16:3e:ef:0f:3e'
-
 ext_idm_ip: '192.168.200.254'
-ext_sat_ip: '192.168.200.253'
-ext_tower_ip: '192.168.200.252'
+int_idm_mac: '00:16:3e:0f:ef:8a'
+int_idm_ip: '172.32.0.254'
+
+# ext_sat_mac: '00:16:3e:ef:0f:8b'
+# ext_sat_ip: '192.168.200.253'
+int_sat_mac: '00:16:3e:0f:ef:8b'
+int_sat_ip: '172.32.0.253'
+
+# ext_tower_mac: '00:16:3e:ef:0f:3e'
+# ext_tower_ip: '192.168.200.252'
+int_tower_mac: '00:16:3e:0f:ef:3e'
+int_tower_ip: '172.32.0.252'
+
 ext_net_netmask: '255.255.255.0'
 ext_net_rev: '200.168.192'
 
-int_idm_mac: '00:16:3e:0f:ef:8a'
-int_sat_mac: '00:16:3e:0f:ef:8b'
-int_tower_mac: '00:16:3e:0f:ef:3e'
+int_vmblank_mac: '00:16:3e:0f:ef:3f'
+int_vmblank_ip: '172.32.0.251'
 
-int_idm_ip: '172.32.0.254'
-int_sat_ip: '172.32.0.253'
-int_tower_ip: '172.32.0.252'
 int_net_netmask: '255.255.255.0'
 int_net_rev: '0.32.172'
 

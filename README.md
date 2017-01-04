@@ -11,14 +11,11 @@ ansible-playbook -k --ask-become-pass -i hosts site.yml
 as a simple user. The user need to have correct authorization in sudo.
 
 ## FIXME
-
-- Fix masquerading.
+- Add vars_prompt for all
 
 ## TODO
-- Configure Satellite.
-- - Register in RHN
 - - Register in IPA.
-- - Configure repository.
+- Configure Satellite.
 
 ## DONE
 
@@ -27,6 +24,9 @@ as a simple user. The user need to have correct authorization in sudo.
 - Configure IDM
 - Deploy Satellite
 - Configure repository
+- Fix masquerading.
+- Create a common for rhn registration / basic firewall (ssh) / basic repositories subscription
+- - Register in RHN
 
 ## FIXME
 

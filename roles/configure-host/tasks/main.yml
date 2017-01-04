@@ -3,3 +3,5 @@
   template:
     src: templates/dns_name.j2
     dest: /etc/NetworkManager/dnsmasq.d/{{ dns_name }}.conf
+  notify:
+    - reload Network Manager
