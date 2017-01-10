@@ -20,5 +20,6 @@
   firewalld: service={{ item }} permanent=true state=enabled immediate=true
   with_items:
      - ssh
+     - ntp
   notify:
     - restart firewalld
