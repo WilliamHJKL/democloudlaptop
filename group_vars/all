@@ -11,7 +11,7 @@ storage_pool_location: /var/lib/libvirt/images/{{ storage_name }}
 idm_name: srv
 sat_name: sat
 tower_name: tower
-generic_name: vmtest
+generic_name: tower4
 
 internal_network_name: ansible-internal
 external_network_name: ansible-external
@@ -40,7 +40,7 @@ int_tower_ip: '172.32.0.252'
 ext_net_netmask: '255.255.255.0'
 ext_net_rev: '200.168.192'
 
-int_vm_generic_mac: '00:16:3e:0f:ef:3f'
+int_vm_generic_mac: '00:16:3e:0f:ef:8f'
 int_vm_generic_ip: '172.32.0.251'
 
 int_net_netmask: '255.255.255.0'

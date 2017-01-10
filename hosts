@@ -5,18 +5,18 @@
 192.168.200.254
 [idmserver:vars]
 ansible_user=root
-ansible_ssh_pass=redhat
+ansible_ssh_pass=redhat123
 
 [generic]
 192.168.200.251
 [generic:vars]
 ansible_user=root
-ansible_ssh_pass=redhat
+ansible_ssh_pass=redhat123
 
 [satserver]
 192.168.200.253
 [satserver:vars]
 ansible_user=root
-ansible_ssh_pass=redhat
+ansible_ssh_pass=redhat123
 
 

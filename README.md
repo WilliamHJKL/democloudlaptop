@@ -11,9 +11,8 @@ ansible-playbook -k --ask-become-pass -i hosts site.yml
 as a simple user. The user need to have correct authorization in sudo.
 
 ## FIXME
+- Fix ipa-client registration.
 - Add vars_prompt for all roles.
-- Fix kickstart to use {{ ipaserver_admin_password }}
-- Fix kickstart to disable chronyd --force-ntpd
 
 ## TODO
 - - generic kickstart
@@ -38,6 +37,8 @@ as a simple user. The user need to have correct authorization in sudo.
 - - Register in RHN
 - Move deploy-vm-blank to deploy-vm-generic
 - Register in IPA (done via kickstart)
+- Fix kickstart to use {{ ipaserver_admin_password }}
+- Fix kickstart to disable chronyd --force-ntpd
 
 ## FIXME
 

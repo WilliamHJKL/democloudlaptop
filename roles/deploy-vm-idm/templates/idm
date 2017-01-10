@@ -12,7 +12,7 @@ network  onboot=yes --bootproto=static --device=eth1 --ip={{ int_idm_ip }} --net
 
 network  --hostname={{ vm_hostname }}
 
-rootpw --iscrypted $6$QDxZPzswoCsKZMM4$k9o.xlmOdWAv.Yqz0DgWBEevEsJVK9A5shT5aTTAuNL65X4uiAjL1wZYq3guekE6YC/GUEm2PYOGw0G3InI8R0
+rootpw --plaintext {{ ipaserver_admin_password }}
 
 timezone Europe/Paris --isUtc
 
