@@ -27,21 +27,14 @@ ext_idm_ip: '192.168.200.254'
 int_idm_mac: '00:16:3e:0f:ef:8a'
 int_idm_ip: '172.32.0.254'
 
-# ext_sat_mac: '00:16:3e:ef:0f:8b'
-# ext_sat_ip: '192.168.200.253'
 int_sat_mac: '00:16:3e:0f:ef:8b'
 int_sat_ip: '172.32.0.253'
 
-# ext_tower_mac: '00:16:3e:ef:0f:3e'
-# ext_tower_ip: '192.168.200.252'
 int_tower_mac: '00:16:3e:0f:ef:3e'
 int_tower_ip: '172.32.0.252'
 
 ext_net_netmask: '255.255.255.0'
 ext_net_rev: '200.168.192'
-
-int_vm_generic_mac: '00:16:3e:0f:ef:8f'
-int_vm_generic_ip: '172.32.0.251'
 
 int_net_netmask: '255.255.255.0'
 int_net_rev: '0.32.172'

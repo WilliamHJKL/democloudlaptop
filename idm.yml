@@ -1,12 +1,5 @@
 - name: Configure IDM
   hosts: idmserver
-  become: yes
-  vars_prompt:
-    - name: "rhn_activationkey"
-      prompt: "Please enter your activationkey"
-    - name: "rhn_orgid"
-      prompt: "Please enter your orgid (5318211)"
-      default: "5318211"
   roles:
-    - common
+#    - common
     - configure-idm

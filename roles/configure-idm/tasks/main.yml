@@ -26,6 +26,22 @@
     state: present
     reload: yes
 
+- name: CONFIGURE IDM | Deactivate ipv6 - 1
+  sysctl:
+    name: net.ipv6.conf.all.disable_ipv6
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: CONFIGURE IDM | Deactivate ipv6 - 2
+  sysctl:
+    name: net.ipv6.conf.default.disable_ipv6
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
 - name: CONFIGURE IDM | Configure {{ ansible_fqdn }} as a router
   firewalld:
     masquerade: yes

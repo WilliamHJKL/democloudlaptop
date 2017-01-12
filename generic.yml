@@ -1,6 +1,5 @@
 - name: "Install generic node"
   hosts: kvmhosts
-  become: yes
   roles:
     - role: deploy-vm-generic
       vm_name: changeme
@@ -11,4 +10,6 @@
       vm_num_cpus: '2'
       vm_num_cpus_max: '4'
       vm_memory_options: "--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio"
+      int_vm_generic_mac: 'ba:dc:0f:0f:ef:8f'
+      int_vm_generic_ip: '172.32.0.251'
     - role: common
