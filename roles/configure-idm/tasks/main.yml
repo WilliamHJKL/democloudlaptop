@@ -64,6 +64,7 @@
     --mkhomedir
     -a {{ ipaserver_admin_password }}
     -p {{ ipaserver_dir_admin_password }}
+    --no-dnssec-validation
     --unattended
 
 - name: CONFIGURE IDM | Update all packages.

@@ -7,6 +7,9 @@
   fail: msg="Hardware Virtualization Not Supported on this platform!!!!"
   when: hw_check.stdout == "0"
 
+- name: DEPLOY INFRA | Add nested virtualization
+  modprobe: name=kvm-intel state=present params="nested=1,enable_shadow_vmcs=1,enable_apicv=1,ept=1"
+
 - name: DEPLOY INFRA | Installing packages
   yum: name="{{ item }}" state=latest
   with_items: "{{ libvirt_packages }}"
