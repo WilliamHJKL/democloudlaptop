@@ -5,6 +5,8 @@
   - "{{ idm_name }}"
   - "{{ sat_name }}"
   - "{{ tower_name }}"
+  - "changeme"
+#{{ dns_name }}
   ignore_errors: True
 
 - name: Undefine VMs
@@ -13,6 +15,7 @@
   - "{{ idm_name }}"
   - "{{ sat_name }}"
   - "{{ tower_name }}"
+  - "changeme"
   ignore_errors: True
 
 - name: Remove networks
@@ -22,8 +25,40 @@
   - "{{ external_network_name }}"
   ignore_errors: True
 
-- name: Remove storage
+- name: Stop storage pool
   virt_pool:
-    command: delete
+    command: stop
     name: "{{ storage_name }}"
   ignore_errors: True
+
+- name: Find disks in storage pool
+  find: path={{ storage_pool_location }} file_type=file
+  register: files
+
+- name: print list of files
+  file: state=absent path={{ item.path }}
+  with_items:
+  - "{{ files.files }}"
+
+#  debug:
+#    msg: "{{ files }}"
+
+- name: Delete storage pool
+  virt_pool:
+    state: deleted
+    name: "{{ storage_name }}"
+  ignore_errors: True
+
+- name: CLEANUP - Remove dns fix.
+  file: path=/etc/NetworkManager/dnsmasq.d/{{ dns_name }}.conf state=absent
+  notify:
+    - reload Network Manager
+
+# FIXME : find a way to keep the permission on the file.
+#- name: Cleanup known hosts file
+#  known_hosts:
+#    path: ~/.ssh/known_hosts
+#    name: 192.168.200.254
+#    state: absent
+#    with_items:
+#    - "{{ 192.168.200.254 }}"

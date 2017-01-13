@@ -4,6 +4,22 @@
     name: '*'
     state: latest
 
+- name : COMMON CLIENT - Disable unwanted services
+  service:
+    name: "{{ item }}"
+    enabled: no
+    state: stopped
+  with_items:
+    - "chronyd"
+
+- name : COMMON CLIENT - Disable unwanted services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - "ntpd"
+
 - name: COMMON CLIENT - Preparation to register into IDM.
   file: path=/etc/ipa/ca.crt state=absent
 

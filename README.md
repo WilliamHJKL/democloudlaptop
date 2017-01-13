@@ -6,23 +6,15 @@ running on your laptop, this ftp server will server a RHEL7.3 iso.
 - Configure variables in **group_vars/all** or in **roles/name/vars/main.yml**.
 - Run :
 ```
-ansible-playbook -k --ask-become-pass -i hosts site.yml
+ansible-playbook -k --ask-become-pass -i hosts site.yml  --extra-vars "rhn_activationkey=putyouractivationkeyhere rhn_orgid=andyourorgid"
 ```
 as a simple user. The user need to have correct authorization in sudo.
 
 ## FIXME
-- Fix ipa-client registration.
-- Add vars_prompt for all roles.
+- cleanup.yml : fix know_hosts
+- configure-idm : use with_items for sysctl stuff
 
 ## TODO
-- - generic kickstart
-- - variables in site.yml like :
-  ---
-  - role: deploy_generic_vm
-    vm_name: XXX
-    system_disk_size: 8
-    mem_size: 2048
-    num_cpus: 2
 - Configure Satellite.
 
 ## DONE
@@ -39,6 +31,7 @@ as a simple user. The user need to have correct authorization in sudo.
 - Register in IPA (done via kickstart)
 - Fix kickstart to use {{ ipaserver_admin_password }}
 - Fix kickstart to disable chronyd --force-ntpd
+- Fix ipa-client registration.
 
 ## FIXME
 

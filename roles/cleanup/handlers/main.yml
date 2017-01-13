@@ -1,0 +1,4 @@
+---
+- name: reload Network Manager
+  service: name=NetworkManager state=reloaded
+
