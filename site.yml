@@ -2,14 +2,8 @@
 - name: Deploy a demo infrastructure
   hosts: kvmhosts
   become: yes
-  vars_prompt:
-    - name: "rhn_activationkey"
-      prompt: "Please enter your activationkey"
-    - name: "rhn_orgid"
-      prompt: "Please enter your orgid"
-      default: "5318211"
 
-- include: infra.yml
-- include: idm.yml
-- include: fix.yml
-- include: generic.yml
+- include: infra.yml    # OK
+- include: idm.yml      # OK
+- include: fix.yml      # OK
+- include: vms.yml      # OK

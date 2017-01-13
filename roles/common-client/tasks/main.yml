@@ -1,7 +1,12 @@
 ---
-- name: COMMON CLIENT - Register into IDM.
-  command: ipa-client-install -w {{ ipaserver_admin_password }} -U --enable-dns-updates --domain={{ dns_name }} --mkhomedir --realm {{ dns_name  | upper }} --server={{ idm_name }} -N --unattended
+- name: COMMON CLIENT - Update all packages.
+  yum:
+    name: '*'
+    state: latest
 
-# open ports : ssh / ntp
-# register in RHN
-# register in IDM
+- name: COMMON CLIENT - Preparation to register into IDM.
+  file: path=/etc/ipa/ca.crt state=absent
+
+- name: COMMON CLIENT - Register into IDM.
+  command: ipa-client-install -p admin -w {{ ipaserver_admin_password }} -U --enable-dns-updates --domain={{ dns_name }} --mkhomedir --realm {{ dns_name  | upper }} --server={{ idm_name }}.{{ dns_name }} -N --unattended
+

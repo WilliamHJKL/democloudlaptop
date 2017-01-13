@@ -7,16 +7,14 @@
 ansible_user=root
 ansible_ssh_pass=redhat123
 
-[generic]
-192.168.200.251
-[generic:vars]
-ansible_user=root
-ansible_ssh_pass=redhat123
-
 [satserver]
-192.168.200.253
+172.32.0.253
 [satserver:vars]
 ansible_user=root
 ansible_ssh_pass=redhat123
 
-
+[generic]
+172.32.0.251
+[generic:vars]
+ansible_user=root
+ansible_ssh_pass=redhat123
