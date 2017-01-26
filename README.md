@@ -15,6 +15,7 @@ as a simple user. The user need to have correct authorization in sudo.
 - configure-idm : use with_items for sysctl stuff
 
 ## TODO
+- Optimize VM deployement.
 - Configure Satellite.
 
 ## DONE
