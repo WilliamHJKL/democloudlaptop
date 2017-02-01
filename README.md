@@ -41,8 +41,6 @@ as a simple user. The user need to have correct authorization in sudo.
 
 - Fix ipa-client registration.
 
-## FIXME
-
 ## LATER
 
 Wait for <https://github.com/ansible/ansible-modules-extras/pull/3247>
