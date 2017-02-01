@@ -1,0 +1,24 @@
+# Groups vars
+infrastructure_networks:
+  - "{{ infrastructure_network_services }}"
+  - "{{ infrastructure_network_guests }}"
+  - "{{ infrastructure_network_admin }}"
+  - "{{ infrastructure_network_storage }}"
+  - "{{ infrastructure_network_rhosp_provisioning }}"
+  - "{{ infrastructure_network_rhosp_internal }}"
+# Create networks :
+- name: define networks
+  virt_net: uri=qemu:///system name={{ item.netname }} command=define state=present xml='{{ lookup("template", "libvirt_network.xml.j2") }}'
+  with_items: "{{ infrastructure_networks }}"
+- name: start networks
+  virt_net: uri=qemu:///system name={{ item.netname }} state=active
+  with_items: "{{ infrastructure_networks }}"
+- name: set autostart networks
+  virt_net: uri=qemu:///system name={{ item.netname }} autostart=yes
+  with_items: "{{ infrastructure_networks }}"
+
+# Delete networks :
+- name: delete networks who need to be reconfigured
+  virt_net: uri=qemu:///system name={{ item.netname }} command=destroy state=absent
+  when: ansible_{{ item.bridge }}.ipv4.address is defined and ansible_{{ item.bridge }}.ipv4.address != item.default_gw_host_prefix | ipaddr('address')
+  with_items: "{{ infrastructure_networks }}"
