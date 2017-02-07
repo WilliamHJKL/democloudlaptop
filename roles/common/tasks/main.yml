@@ -1,9 +1,13 @@
 ---
-- name: CONFIGURE | Set the hostname
-  hostname: name={{ ansible_fqdn }}
+- name: CONFIGURE  Define the hostname
+  hostname:
+    name: "{{ ansible_fqdn }}"
 
 - name: CONFIGURE | Subscribe the system to RHN
-  redhat_subscription: state=present activationkey={{ rhn_activationkey }} org_id={{ rhn_orgid }}
+  redhat_subscription:
+    org_id: "{{ rhn_orgid }}"
+    state: present
+    activationkey: "{{ rhn_activationkey }}"
 
 - name: CONFIGURE | Disable all the repos.
   command: subscription-manager repos --disable="*"

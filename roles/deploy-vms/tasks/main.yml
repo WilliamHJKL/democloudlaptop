@@ -1,0 +1,58 @@
+---
+- name: DEPLOY VM {{ vm_name }} | Check that the VM is not running yet
+  virt:
+    command: list_vms
+  register: result
+
+- name: DEPLOY VM {{ vm_name }} | Create the configuration for storing kickstarts
+  file:
+    state: directory
+    name: /etc/libvirt/kickstarts/{{ vm_name }}
+  tags:
+    - kickstart
+
+- name: DEPLOY VM VM | Install the kickstart for {{ vm_name }}
+  template:
+    src: vm
+    dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
+  tags:
+    - kickstart
+
+## I'M UPDATING THIS WORK IN PROGRESS
+- name: DEPLOY IDM | Run the virt-install
+  command: /usr/bin/virt-install -n {{ item.vm_name}}.{{ dns_name }} {{ item.vm_memory_options }} --disk pool={{ item.storage_name}},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }}, maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ external_network_name }},model=virtio,mac={{ ext_idm_mac }} --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  with_items:
+    - { vm_name: 'srv',vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm_disk_size: '10', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_idm_mac }}' }
+
+- name: DEPLOY TOWER AND SAT | Run the virt-install
+  command: /usr/bin/virt-install -n {{ item.vm_hostname }} {{ item.vm_memory_options }} --disk pool={{ item.storage_name}},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }},maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ item.vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_int_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  with_items:
+    - { vm_name: 'sat', vm_hostname: '{{ vm_name }}.{{ dns_name }}', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm: '5', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_sat_mac}}' }
+    - { vm_name: 'tower', vm_hostname: '{{ vm_name }}.{{ dns_name }}', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm: '5', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_tower_mac }}' }
+
+- name: DEPLOY VM VM | Wait for the install to finish
+  virt:
+    command: status
+    name: "{{ item.vm_hostname }}"
+  with_items:
+    - srv.{{ dns_name }}
+    - sat.{{ dns_name }}
+    - tower.{{ dns_name }}
+# FIXME ^^ find a more elegant way not to use hardcoded names.
+  register: vmstatus
+  until: vmstatus.status == 'shutdown'
+  retries: 500
+  delay: 10
+
+- name: DEPLOY VM VM | Start the VM for {{ vm_hostname }}
+  virt:
+    command: start
+    name: "{{ vm_hostname }}"
+
+- name: DEPLOY VM VM | Check that the VM is running.
+  local_action: wait_for host={{ ansible_ssh_host }}
+    state=started
+    port=22
+    delay=30
+    timeout=300
+    connect_timeout=15

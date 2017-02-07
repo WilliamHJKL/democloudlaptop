@@ -12,8 +12,8 @@ idm_name: srv
 sat_name: sat
 tower_name: tower
 
-internal_network_name: ansible-internal
-external_network_name: ansible-external
+internal_network_name: internal
+external_network_name: external
 
 ext_net_dhcprangestart: '192.168.200.254'
 ext_net_dhcprangestop: '192.168.200.254'
@@ -49,7 +49,6 @@ libvirt_packages:
   - virt-manager
   - virt-install
 
-
 keyboard: 'us'
 lang: 'en_US'
 timezone: 'Europe/Paris'
@@ -60,4 +59,3 @@ ks_repo:
 
 ipaserver_admin_password: 'redhat123'
 ipaserver_dir_admin_password: 'redhat123'
-

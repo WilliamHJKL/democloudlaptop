@@ -6,6 +6,24 @@ infrastructure_networks:
   - "{{ infrastructure_network_storage }}"
   - "{{ infrastructure_network_rhosp_provisioning }}"
   - "{{ infrastructure_network_rhosp_internal }}"
+
+ infrastructure_network_services:
+    netname: 'services'
+   bridge: 'virbr1'
+   forward_mode: 'nat'
+   default_gw_host_prefix: 192.168.101.1/24
+   osp_undercloud_start:   192.168.101.30
+   osp_undercloud_end:     192.168.101.80
+   osp_overcloud_start:    192.168.101.81
+   osp_overcloud_end:      192.168.101.100
+   dhcp_start:             192.168.101.128
+   dhcp_end:               192.168.101.172
+   floating_start:         192.168.101.173
+   floating_end:           192.168.101.254
+   mac_prefix: "02:00:00:00:01:"
+
+
+
 # Create networks :
 - name: define networks
   virt_net: uri=qemu:///system name={{ item.netname }} command=define state=present xml='{{ lookup("template", "libvirt_network.xml.j2") }}'
