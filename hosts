@@ -1,6 +1,10 @@
 [kvmhosts]
 127.0.0.1
 
+[vms:children]
+idmserver
+satserver
+
 [idmserver]
 192.168.200.254
 [idmserver:vars]

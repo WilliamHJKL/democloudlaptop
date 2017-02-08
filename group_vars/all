@@ -8,9 +8,9 @@ dns_name: ansible.demo
 storage_name: ansible-storage
 storage_pool_location: /var/lib/libvirt/images/{{ storage_name }}
 
-idm_name: srv
-sat_name: sat
-tower_name: tower
+# idm_name: srv
+# sat_name: sat
+# tower_name: tower
 
 internal_network_name: internal
 external_network_name: external

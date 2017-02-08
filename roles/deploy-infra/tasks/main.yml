@@ -24,7 +24,7 @@
     name: libvirtd
     state: started
     enabled: yes
-
+## FIXME test this solution.
 - name: DEPLOY NETWORKS
   virt_net:
     command: define

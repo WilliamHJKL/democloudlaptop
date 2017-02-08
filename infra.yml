@@ -2,4 +2,4 @@
   hosts: kvmhosts
   roles:
     - deploy-infra
-    - deploy-vm-idm
+    - deploy-vms
