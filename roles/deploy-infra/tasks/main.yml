@@ -13,36 +13,37 @@
     state: present
     params: "nested=1,enable_shadow_vmcs=1,enable_apicv=1,ept=1"
 
-- name: DEPLOY INFRA | Installing packages
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items: "{{ libvirt_packages }}"
+#- name: DEPLOY INFRA | Installing packages
+#  yum:
+#    name: "{{ item }}"
+#    state: latest
+#  with_items: "{{ libvirt_packages }}"
 
 - name: DEPLOY INFRA | Enabling and starting libvirtd service
   service:
     name: libvirtd
     state: started
     enabled: yes
-## FIXME test this solution.
+
 - name: DEPLOY NETWORKS
   virt_net:
     command: define
     name: "{{ item }}"
-    xml: '{{ lookup("template", "../template/{{ item }}.xml.j2") }}'
+    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2") }}'
     autostart: yes
   with_items: "{{ infra_networks }}"
 
-- name: DEPLOY INFRA NETWORK | Starting internal network
+- name: DEPLOY NETWORK | Starting internal network
   virt_net:
-    name: "{{ item.networkname }}"
+    name: "{{ item }}"
     state: active
   with_items: "{{ infra_networks }}"
 
 - name: DEPLOY INFRA STORAGE | Creating Vm directory
   file:
     path: '{{ storage_pool_location }}'
-    state: directory mode=0755
+    state: directory
+    mode: 0755
 
 - name: DEPLOY INFRA STORAGE | Creating VM spool
   virt_pool:

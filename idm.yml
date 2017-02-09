@@ -1,5 +1,0 @@
-- name: Configure IDM
-  hosts: idmserver
-  roles:
-    - common
-    - configure-idm

@@ -3,22 +3,33 @@
   hostname:
     name: "{{ ansible_fqdn }}"
 
-- name: CONFIGURE | Subscribe the system to RHN
-  redhat_subscription:
-    org_id: "{{ rhn_orgid }}"
+#- name: CONFIGURE | Subscribe the system to RHN
+#  redhat_subscription:
+#    org_id: "{{ rhn_orgid }}"
+#    state: present
+#    activationkey: "{{ rhn_activationkey }}"
+
+- name: CONFIGURE | Configure ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
     state: present
-    activationkey: "{{ rhn_activationkey }}"
-
-- name: CONFIGURE | Disable all the repos.
-  command: subscription-manager repos --disable="*"
-
-- name: CONFIGURE | Enable the appropriate repos.
-  command: subscription-manager repos --enable={{ item }}
+    reload: yes
   with_items:
-    - rhel-7-server-rpms
-    - rhel-7-server-extras-rpms
-    - rhel-7-server-rh-common-rpms
-    - rhel-7-server-optional-rpms
+    - net.ipv6.conf.all.disable_ipv6
+    - net.ipv6.conf.default.disable_ipv6
+
+#- name: CONFIGURE | Disable all the repos.
+#  command: subscription-manager repos --disable="*"
+#
+#- name: CONFIGURE | Enable the appropriate repos.
+#  command: subscription-manager repos --enable={{ item }}
+#  with_items:
+#    - rhel-7-server-rpms
+#    - rhel-7-server-extras-rpms
+#    - rhel-7-server-rh-common-rpms
+#    - rhel-7-server-optional-rpms
 
 - name: CONFIGURE | Setup the firewall
   firewalld: service={{ item }} permanent=true state=enabled immediate=true

@@ -1,5 +1,0 @@
-## This files is to fix few small things that could cause problems :)
-- name: Fix DNS
-  hosts: kvmhosts
-  roles:
-    - configure-host

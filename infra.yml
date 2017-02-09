@@ -1,5 +1,0 @@
-- name: Deploy infrastructure and IDM
-  hosts: kvmhosts
-  roles:
-    - deploy-infra
-    - deploy-vms

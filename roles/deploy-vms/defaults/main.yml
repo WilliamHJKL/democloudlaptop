@@ -1,0 +1,5 @@
+---
+vm_name:
+  - "{{ idm_name }}"
+  - "{{ sat_name }}"
+  - "{{ tower_name }}"

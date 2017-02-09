@@ -17,8 +17,8 @@ ansible_ssh_pass=redhat123
 ansible_user=root
 ansible_ssh_pass=redhat123
 
-[generic]
-172.32.0.251
-[generic:vars]
+[towerserver]
+172.32.0.252
+[towerserver:vars]
 ansible_user=root
 ansible_ssh_pass=redhat123

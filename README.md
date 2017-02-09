@@ -7,63 +7,46 @@ Configure variables in **group_vars/all** or in **roles/name/vars/main.yml**.
 Run as a user the following command (the user need to have correct authorization in sudo). :
 
 ```
-  ansible-playbook -k --ask-become-pass -i hosts site.yml  --extra-vars "rhn_activationkey=putyouractivationkeyhere rhn_orgid=andyourorgid"
+
+  ansible-playbook -k --ask-become-pass -i inventory site.yml  --extra-vars "rhn_activationkey=putyouractivationkeyhere rhn_orgid=andyourorgid"
 ```
 
-The logic behind these playbooks is :
+The logic behind these playbooks is:
 
-- roles/deploy-infra :
+**roles/_deploy-infra:_**
 
-  - configure nested virtualization.
-  - install packages for virtualization.
-  - create networks :
+- configure nested virtualization.
+- install packages for virtualization.
+- create networks:
 
-    - one external network.
-    - one internal network.
+  - one external network.
+  - one internal network.
 
-  - configure storage pool.
+- configure storage pool.
 
-- roles/deploy-vms :
+**roles/_deploy-vms:_**
 
-  - deploy a number of vms.
+- deploy a number of vms.
 
-- roles/common :
+**roles/_common:_**
 
-  - configure system's fqdn.
-  - register system's in RHN.
-  - configure minimal repositories.
-  - configure a minimal firewall.
+- configure system's fqdn.
+- register system's in RHN.
+- deactivate ipv6
+- configure a minimal firewall.
+- configure minimal repositories.
 
-## FIXME
+**roles/_configure-idm_**
 
-- cleanup.yml : fix know_hosts
-- configure-idm : use with_items for sysctl stuff
+- configure idm.
 
-## TODO
+**roles/_configure-host_**
 
-- Optimize VM deployement.
-- Configure Satellite.
+- a quick and dirty hack to get dns resolution working from kvm host.
 
-## DONE
+**roles/_cleanup_**
 
-- Deploy infra : network / storage / vm.
-- Deploy vm IDM
-- Configure IDM
-- Deploy Satellite
-- Configure repository
-- Fix masquerading.
-- Create a common for rhn registration / basic firewall (ssh) / basic repositories subscription
-- - Register in RHN
-
-- Move deploy-vm-blank to deploy-vm-generic
-
-- Register in IPA (done via kickstart)
-
-- Fix kickstart to use {{ ipaserver_admin_password }}
-
-- Fix kickstart to disable chronyd --force-ntpd
-
-- Fix ipa-client registration.
+- the beginning of a cleanup playbooks, once writen it will desinstalle everything ...
 
 ## LATER
 

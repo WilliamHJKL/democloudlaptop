@@ -1,9 +1,15 @@
 ---
-- name: Deploy a demo infrastructure
-  hosts: kvmhosts
+- hosts: kvmhosts
   become: yes
+  roles:
+    - deploy-infra
+    - deploy-vms
 
-- include: infra.yml    # OK
-- include: idm.yml      # OK
-- include: fix.yml      # OK
-- include: vms.yml      # OK
+- hosts: vm:childrens
+  roles:
+    - role: common
+    - role: common-client
+
+- hosts: idmserver
+- hosts: satserver
+- hosts: towerserver

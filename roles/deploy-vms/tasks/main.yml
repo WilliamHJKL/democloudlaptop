@@ -1,33 +1,37 @@
 ---
-- name: DEPLOY VM {{ vm_name }} | Check that the VM is not running yet
+- name: DEPLOY VM  | Check that the VM is not running yet
   virt:
     command: list_vms
   register: result
 
-- name: DEPLOY VM {{ vm_name }} | Create the configuration for storing kickstarts
+- name: DEPLOY VM  | Create the configuration for storing kickstarts
   file:
     state: directory
-    name: /etc/libvirt/kickstarts/{{ vm_name }}
-  tags:
-    - kickstart
+    name: /etc/libvirt/kickstarts/{{ item }}
+  with_items:
+    - "{{ vm_name }}"
 
-- name: DEPLOY VM VM | Install the kickstart for {{ vm_name }}
+- name: DEPLOY VM | Install the kickstarts
   template:
-    src: vm
-    dest: /etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg
-  tags:
-    - kickstart
-
+    src: ../templates/{{ item }}
+    dest: /etc/libvirt/kickstarts/{{ item }}/ks.cfg
+  with_items:
+    - "{{ vm_name }}"
+- name: debug tentative
+  debug:
+    msg: "{{ item.vm_name }}.{{ dns_name }}  {{ item.storage_name }} {{ item.vm_disk_size }} {{ item.vm_num_cpus }} {{ item.vm_num_cpus_max }} {{ vm_name }} {{ external_network_name }} {{ ext_idm_mac }} {{ internal_network_name }} {{ item.int_vm_mac }}"
+  with_items:
+    - { vm_name: 'srv', storage_name: '{{ storage_name }}', vm_disk_size: '10', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_idm_mac }}' }
 ## I'M UPDATING THIS WORK IN PROGRESS
 - name: DEPLOY IDM | Run the virt-install
-  command: /usr/bin/virt-install -n {{ item.vm_name}}.{{ dns_name }} {{ item.vm_memory_options }} --disk pool={{ item.storage_name}},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }}, maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ external_network_name }},model=virtio,mac={{ ext_idm_mac }} --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  command: /usr/bin/virt-install -n {{ item.vm_name }}.{{ dns_name }} --memory={{ item.vm_mem_size }} --disk pool={{ item.storage_name }},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }},maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ external_network_name }},model=virtio,mac={{ ext_idm_mac }} --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
   with_items:
-    - { vm_name: 'srv',vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm_disk_size: '10', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_idm_mac }}' }
+    - { vm_name: 'srv', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm_disk_size: '10', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_idm_mac }}' }
 
 - name: DEPLOY TOWER AND SAT | Run the virt-install
-  command: /usr/bin/virt-install -n {{ item.vm_hostname }} {{ item.vm_memory_options }} --disk pool={{ item.storage_name}},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }},maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ item.vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_int_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
+  command: /usr/bin/virt-install -n {{ item.vm_hostname }} --memory={{ item.vm_memory_options }} --disk pool={{ item.storage_name}},size={{ item.vm_disk_size }} --vcpus={{ item.vm_num_cpus }},maxvcpus={{ item.vm_num_cpus_max }} --initrd-inject=/etc/libvirt/kickstarts/{{ item.vm_name }}/ks.cfg  --autostart --noautoconsole --watchdog default --network network={{ internal_network_name }},model=virtio,mac={{ item.int_vm_mac }} --rng=/dev/random -l ftp://{{ kvm_host_int_ip }}/pub/EL/7/ --graphics none -x 'net.ifnames=0 ksdevice=eth0 ks=file:/ks.cfg console=tty0 console=ttyS0'
   with_items:
-    - { vm_name: 'sat', vm_hostname: '{{ vm_name }}.{{ dns_name }}', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm: '5', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_sat_mac}}' }
+    - { vm_name: 'sat', vm_hostname:  '{{ vm_name }}.{{ dns_name }}', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm: '5', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_sat_mac}}' }
     - { vm_name: 'tower', vm_hostname: '{{ vm_name }}.{{ dns_name }}', vm_mem_size: '2', vm_memory_options: '--memory={{ vm_mem_size }},maxmemory={{ vm_mem_size_max }} --memballoon virtio', storage_name: '{{ storage_name }}', vm: '5', vcpus: '2', maxvcpus: '4', int_vm_mac: '{{ int_tower_mac }}' }
 
 - name: DEPLOY VM VM | Wait for the install to finish

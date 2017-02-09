@@ -8,7 +8,6 @@ url --url="ftp://{{ kvm_host_ip }}/pub/EL/7"
 text
 
 network  onboot=yes --bootproto=static --device=eth0 --ip={{ int_sat_ip }} --netmask={{ int_net_netmask }} --gateway={{ int_idm_ip }}  --nameserver={{ int_idm_ip }} --activate
-network  --hostname={{ vm_hostname }}
 
 rootpw --plaintext {{ ipaserver_admin_password }}
 
