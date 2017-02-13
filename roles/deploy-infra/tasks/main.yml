@@ -13,11 +13,11 @@
     state: present
     params: "nested=1,enable_shadow_vmcs=1,enable_apicv=1,ept=1"
 
-#- name: DEPLOY INFRA | Installing packages
-#  yum:
-#    name: "{{ item }}"
-#    state: latest
-#  with_items: "{{ libvirt_packages }}"
+- name: DEPLOY INFRA | Installing packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ libvirt_packages }}"
 
 - name: DEPLOY INFRA | Enabling and starting libvirtd service
   service:
@@ -29,7 +29,7 @@
   virt_net:
     command: define
     name: "{{ item }}"
-    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2") }}'
+    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2")
     autostart: yes
   with_items: "{{ infra_networks }}"
 
@@ -41,17 +41,23 @@
 
 - name: DEPLOY INFRA STORAGE | Creating Vm directory
   file:
-    path: '{{ storage_pool_location }}'
+    path: /var/lib/libvirt/images/
     state: directory
     mode: 0755
 
-- name: DEPLOY INFRA STORAGE | Creating VM spool
+#- name: DEPLOY INFRA STORAGE | Creating VM pool
+#  virt_pool:
+#    command: define
+#    name: "{{ storage_name }}"
+#    xml: '{{ lookup("template", "../templates/storage.xml.j2") }}'
+
+- name: DEPLOY INFRA STORAGE | Creating VM pool
   virt_pool:
     command: define
-    name: "{{ storage_name }}"
+    name: 'foostorage'
     xml: '{{ lookup("template", "../templates/storage.xml.j2") }}'
 
-- name: DEPLOY INFRA STORAGE | Starting VM spool
-  virt_pool:
-    name: "{{ storage_name }}"
-    state: active
+#- name: DEPLOY INFRA STORAGE | Starting VM spool
+#  virt_pool:
+#    name: "{{ storage_name }}"
+#    state: active

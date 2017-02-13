@@ -13,8 +13,8 @@ idm_name: srv
 sat_name: sat
 tower_name: tower
 
-internal_network_name: internal
-external_network_name: external
+internal_network_name: rzo-internal
+external_network_name: rzo-external
 
 ext_net_dhcprangestart: '192.168.200.254'
 ext_net_dhcprangestop: '192.168.200.254'
