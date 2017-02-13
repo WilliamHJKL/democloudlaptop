@@ -1,4 +1,4 @@
 ---
 infra_networks:
-  - rzointernal
-  - rzoexternal
+  - "{{ internal_network_name }}"
+  - "{{ external_network_name }}"
