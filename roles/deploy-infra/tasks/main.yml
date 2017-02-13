@@ -25,15 +25,15 @@
     state: started
     enabled: yes
 
-- name: DEPLOY NETWORKS
+- name: DEPLOY NETWORKS | create
   virt_net:
     command: define
     name: "{{ item }}"
-    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2")'
+    xml: '{{ lookup("template", "templates/{{ item }}.xml.j2") }}'
     autostart: yes
   with_items: "{{ infra_networks }}"
 
-- name: DEPLOY NETWORK | Starting internal network
+- name: DEPLOY NETWORKS | start
   virt_net:
     name: "{{ item }}"
     state: active
