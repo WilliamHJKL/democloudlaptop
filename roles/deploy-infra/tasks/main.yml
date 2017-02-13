@@ -29,7 +29,7 @@
   virt_net:
     command: define
     name: "{{ item }}"
-    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2")
+    xml: '{{ lookup("template", "../templates/{{ item }}.xml.j2")'
     autostart: yes
   with_items: "{{ infra_networks }}"
 
@@ -45,19 +45,13 @@
     state: directory
     mode: 0755
 
-#- name: DEPLOY INFRA STORAGE | Creating VM pool
-#  virt_pool:
-#    command: define
-#    name: "{{ storage_name }}"
-#    xml: '{{ lookup("template", "../templates/storage.xml.j2") }}'
-
 - name: DEPLOY INFRA STORAGE | Creating VM pool
   virt_pool:
     command: define
-    name: 'foostorage'
+    name: "{{ storage_name }}"
     xml: '{{ lookup("template", "../templates/storage.xml.j2") }}'
 
-#- name: DEPLOY INFRA STORAGE | Starting VM spool
-#  virt_pool:
-#    name: "{{ storage_name }}"
-#    state: active
+- name: DEPLOY INFRA STORAGE | Starting VM spool
+  virt_pool:
+    name: "{{ storage_name }}"
+    state: active
