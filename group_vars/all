@@ -16,7 +16,7 @@ tower_name: tower
 internal_network_name: rzointernal
 external_network_name: rzoexternal
 
-ext_net_dhcprangestart: '192.168.200.254'
+ext_net_dhcprangestart: '192.168.200.245'
 ext_net_dhcprangestop: '192.168.200.254'
 
 int_net_dhcprangestart: '172.32.0.240'

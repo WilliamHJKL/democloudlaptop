@@ -41,14 +41,17 @@
 
 - name: DEPLOY INFRA STORAGE | Creating Vm directory
   file:
-    path: /var/lib/libvirt/images/
+    path: /var/lib/libvirt/images/{{ storage_name }}
     state: directory
     mode: 0755
 
 - name: DEPLOY INFRA STORAGE | Creating VM pool
   virt_pool:
-    command: create
+    command: define
     name: "{{ storage_name }}"
     xml: '{{ lookup("template", "../templates/storage.xml.j2") }}'
-    state: active
-    autostart: yes
+
+- name: DEPLOY INFRA STORAGE | Starting VM pool
+  virt_pool:
+    command: create
+    name: "{{ storage_name }}"
